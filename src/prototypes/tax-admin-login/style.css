@@ -1,0 +1,488 @@
+/**
+ * @name 财税管理后台登录页样式
+ */
+
+@import "tailwindcss";
+
+.tax-login {
+  min-height: 100dvh;
+  padding: 32px;
+  background:
+    linear-gradient(90deg, rgba(30, 58, 95, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(30, 58, 95, 0.045) 1px, transparent 1px),
+    linear-gradient(135deg, #f7f3ea 0%, #f9fbfd 46%, #eef6f2 100%);
+  background-size: 36px 36px, 36px 36px, auto;
+  color: #152033;
+  font-family: "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-feature-settings: "tnum";
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.tax-login * {
+  box-sizing: border-box;
+}
+
+.tax-login__shell {
+  width: min(100%, 1180px);
+  min-height: calc(100dvh - 64px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 430px;
+  gap: 28px;
+  align-items: center;
+}
+
+.tax-login__insight,
+.tax-login__panel {
+  border: 1px solid rgba(30, 58, 95, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 70px rgba(30, 58, 95, 0.12);
+}
+
+.tax-login__insight {
+  min-height: 650px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.tax-login__insight::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(183, 121, 31, 0.22);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tax-login__brand,
+.tax-login__statement,
+.tax-ledger,
+.tax-login__audit-line {
+  position: relative;
+  z-index: 1;
+}
+
+.tax-login__brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.tax-login__mark {
+  width: 58px;
+  height: 58px;
+  border-radius: 8px;
+  background: #1e3a5f;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 28px;
+  box-shadow: inset 0 -8px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tax-login__eyebrow {
+  margin: 0 0 8px;
+  color: #8a6119;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tax-login__brand h1 {
+  margin: 0;
+  color: #10233b;
+  font-size: 46px;
+  line-height: 1.12;
+  font-weight: 760;
+}
+
+.tax-login__brand p:last-child {
+  margin: 12px 0 0;
+  color: #4b5b70;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.tax-login__statement {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.tax-login__statement .ant-tag {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.tax-ledger {
+  margin-top: 38px;
+  padding: 26px;
+  border: 1px solid rgba(30, 58, 95, 0.14);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(30, 58, 95, 0.08) 32px);
+}
+
+.tax-ledger__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.tax-ledger__top svg {
+  flex-shrink: 0;
+  color: #059669;
+  font-size: 28px;
+}
+
+.tax-ledger__label,
+.tax-ledger__details dt,
+.tax-notice small {
+  display: block;
+  color: #66758a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tax-ledger__top strong {
+  display: block;
+  margin-top: 6px;
+  color: #10233b;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.tax-ledger__details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0 0;
+}
+
+.tax-ledger__details div {
+  padding: 14px;
+  border: 1px solid rgba(30, 58, 95, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.tax-ledger__details dd {
+  margin: 6px 0 0;
+  color: #152033;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.tax-ledger__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.tax-notice {
+  min-height: 96px;
+  padding: 14px;
+  border: 1px solid rgba(30, 58, 95, 0.1);
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tax-notice > span {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tax-notice strong {
+  display: block;
+  margin-top: 2px;
+  color: #13233a;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.tax-notice--safe > span {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.tax-notice--warning > span {
+  background: #fef3c7;
+  color: #b7791f;
+}
+
+.tax-notice--info > span {
+  background: #dbeafe;
+  color: #1e3a5f;
+}
+
+.tax-login__audit-line {
+  margin-top: 28px;
+  padding: 14px 16px;
+  border: 1px solid rgba(5, 150, 105, 0.18);
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.tax-login__audit-line svg {
+  flex-shrink: 0;
+}
+
+.tax-login__panel {
+  padding: 28px;
+}
+
+.tax-login__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 28px;
+  color: #1e3a5f;
+}
+
+.tax-login__panel-header .ant-typography-secondary {
+  font-size: 12px;
+}
+
+.tax-login__title-block h2 {
+  margin: 0;
+  color: #10233b;
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 740;
+}
+
+.tax-login__title-block p {
+  margin: 8px 0 0;
+  color: #66758a;
+  font-size: 14px;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.tax-login__alert {
+  margin: 20px 0 22px;
+  border-radius: 8px;
+}
+
+.tax-login .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.tax-login .ant-form-item-label > label {
+  color: #24364f;
+  font-weight: 650;
+}
+
+.tax-login .ant-input-affix-wrapper,
+.tax-login .ant-select-selector {
+  border-radius: 8px;
+}
+
+.tax-login .ant-input-affix-wrapper:hover,
+.tax-login .ant-select-selector:hover {
+  border-color: #1e3a5f;
+}
+
+.tax-login .ant-input-affix-wrapper-focused,
+.tax-login .ant-select-focused .ant-select-selector {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.16);
+}
+
+.tax-login__captcha-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
+  gap: 12px;
+  align-items: end;
+}
+
+.tax-login__captcha {
+  height: 44px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(30, 58, 95, 0.18);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(135deg, rgba(30, 58, 95, 0.08) 0 8px, transparent 8px 16px),
+    #f7f3ea;
+  color: #1e3a5f;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 760;
+  font-feature-settings: "tnum";
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.tax-login__captcha:hover {
+  border-color: #059669;
+}
+
+.tax-login__captcha:focus-visible {
+  outline: 3px solid rgba(5, 150, 105, 0.24);
+  outline-offset: 2px;
+}
+
+.tax-login__form-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 2px 0 18px;
+}
+
+.tax-login__form-tools .ant-btn-link {
+  padding-right: 0;
+  color: #1e3a5f;
+  font-weight: 650;
+}
+
+.tax-login__submit {
+  min-height: 46px;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 14px 28px rgba(5, 150, 105, 0.22);
+}
+
+.tax-login__secondary-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tax-login__secondary-actions .ant-btn {
+  min-height: 44px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tax-login *,
+  .tax-login *::before,
+  .tax-login *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (max-width: 1120px) {
+  .tax-login {
+    padding: 24px;
+  }
+
+  .tax-login__shell {
+    min-height: calc(100dvh - 48px);
+    grid-template-columns: minmax(0, 1fr) 400px;
+    gap: 20px;
+  }
+
+  .tax-login__insight {
+    padding: 28px;
+  }
+
+  .tax-login__brand h1 {
+    font-size: 38px;
+  }
+
+  .tax-ledger__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .tax-login__shell {
+    grid-template-columns: 1fr;
+  }
+
+  .tax-login__panel {
+    order: -1;
+  }
+
+  .tax-login__insight {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .tax-login {
+    padding: 14px;
+  }
+
+  .tax-login__shell {
+    min-height: calc(100dvh - 28px);
+  }
+
+  .tax-login__panel,
+  .tax-login__insight {
+    padding: 20px;
+  }
+
+  .tax-login__panel-header,
+  .tax-login__brand {
+    align-items: flex-start;
+  }
+
+  .tax-login__panel-header {
+    flex-direction: column;
+  }
+
+  .tax-login__brand h1 {
+    font-size: 30px;
+  }
+
+  .tax-login__brand p:last-child,
+  .tax-login__audit-line {
+    font-size: 13px;
+  }
+
+  .tax-ledger {
+    padding: 18px;
+  }
+
+  .tax-ledger__details,
+  .tax-ledger__grid,
+  .tax-login__secondary-actions,
+  .tax-login__captcha-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tax-login__captcha {
+    margin-bottom: 0;
+  }
+
+  .tax-login__form-tools {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

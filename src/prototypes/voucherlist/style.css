@@ -1,0 +1,820 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+.zgy-page {
+  width: 100vw;
+  height: 100vh;
+  min-width: 1360px;
+  min-height: 720px;
+  display: flex;
+  overflow: hidden;
+  color: #333333;
+  background: #ffffff;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.zgy-sidebar {
+  width: 180px;
+  height: 100vh;
+  flex: 0 0 180px;
+  background: #1f2e54;
+  color: #ffffff;
+}
+
+.zgy-logo {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zgy-logo img {
+  width: 150px;
+  height: 26px;
+  display: block;
+}
+
+.zgy-menu {
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+.zgy-menu-item {
+  position: relative;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  color: rgba(255, 255, 255, 0.95);
+  cursor: default;
+}
+
+.zgy-menu-item svg {
+  color: rgba(255, 255, 255, 0.9);
+  stroke-width: 2.8;
+}
+
+.zgy-menu-item span:last-of-type {
+  line-height: 56px;
+}
+
+.zgy-menu-arrow {
+  position: absolute;
+  right: 16px;
+  top: 21px;
+}
+
+.zgy-submenu {
+  background: rgba(19, 31, 62, 0.28);
+}
+
+.zgy-submenu-item {
+  height: 50px;
+  padding-left: 44px;
+  line-height: 50px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.zgy-submenu-item.is-active {
+  color: #ffffff;
+  font-weight: 700;
+  background: #3078ff;
+}
+
+.zgy-main {
+  width: calc(100vw - 180px);
+  height: 100vh;
+  flex: 1;
+  min-width: 0;
+  background: #ffffff;
+}
+
+.zgy-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: #ffffff;
+}
+
+.zgy-company {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #333333;
+}
+
+.zgy-company-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.zgy-tax-tag {
+  height: 20px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  color: #3078ff;
+  background: #f5f7fa;
+  font-size: 12px;
+}
+
+.zgy-header-actions {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #4c4c4c;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.zgy-header-actions span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.zgy-header-actions svg {
+  color: #777777;
+  stroke-width: 1.8;
+}
+
+.zgy-period {
+  color: #666666;
+  letter-spacing: 0;
+}
+
+.zgy-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.zgy-header-actions strong {
+  color: #111111;
+  font-size: 15px;
+  font-weight: 700;
+  margin-left: -12px;
+}
+
+.zgy-tabs {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+  background: #f4f4f8;
+  border-bottom: 1px solid #e4e4e8;
+}
+
+.zgy-tab-back,
+.zgy-tab-next,
+.zgy-tab-tool {
+  height: 28px;
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d9dce9;
+  background: #efefff;
+  color: #777c88;
+}
+
+.zgy-tab-back {
+  width: 38px;
+  margin-left: 20px;
+}
+
+.zgy-tab-tool {
+  width: 38px;
+  margin-left: auto;
+}
+
+.zgy-tab-next {
+  width: 38px;
+  margin-right: 20px;
+  border-left: 0;
+}
+
+.zgy-tab {
+  height: 28px;
+  min-width: 82px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #888888;
+  font-size: 12px;
+}
+
+.zgy-tab.is-active {
+  color: #333333;
+  background: #ffffff;
+  border-left: 1px solid #ededed;
+  border-right: 1px solid #ededed;
+}
+
+.zgy-tab span {
+  color: #a8a8a8;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.zgy-content {
+  height: calc(100vh - 100px);
+  padding: 20px 20px 0;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.zgy-toolbar {
+  height: 52px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.zgy-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333333;
+  font-weight: 700;
+}
+
+.zgy-date-select {
+  width: 200px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #555555;
+  font-weight: 400;
+}
+
+.zgy-date-select span {
+  color: #333333;
+}
+
+.zgy-date-select svg {
+  color: #d2d6dd;
+}
+
+.zgy-tool-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zgy-primary,
+.zgy-ghost {
+  height: 32px;
+  min-width: 66px;
+  padding: 0 16px;
+  border-radius: 3px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.zgy-primary {
+  border: 1px solid #3078ff;
+  color: #ffffff;
+  background: #3078ff;
+  font-weight: 700;
+}
+
+.zgy-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #dcdfe6;
+  color: #444444;
+  background: #ffffff;
+}
+
+.zgy-table-wrap {
+  height: calc(100vh - 194px);
+  overflow: auto;
+  border-top: 1px solid #e3e3e3;
+  border-left: 1px solid #e3e3e3;
+  box-shadow: inset -9px 0 12px -12px rgba(0, 0, 0, 0.45);
+}
+
+.zgy-table {
+  width: 100%;
+  min-width: 1600px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.zgy-table th,
+.zgy-table td {
+  height: 40px;
+  padding: 0 10px;
+  border-right: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+  color: #333333;
+  text-align: left;
+  vertical-align: middle;
+  background: #ffffff;
+  line-height: 20px;
+}
+
+.zgy-table th {
+  height: 53px;
+  background: #f7f7f7;
+  font-weight: 700;
+  color: #222222;
+}
+
+.zgy-table th:first-child,
+.zgy-table td:first-child {
+  text-align: center;
+}
+
+.zgy-table th svg {
+  display: inline-block;
+  vertical-align: -2px;
+  color: #d7d7d7;
+  fill: #d7d7d7;
+}
+
+.zgy-attachment-head {
+  color: #1f5fff !important;
+}
+
+.zgy-attachment-head span {
+  height: 18px;
+  margin-left: 6px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9px;
+  color: #ffffff;
+  background: #ff8448;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+.zgy-checkbox {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border: 1px solid #d4d8df;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.zgy-date-cell {
+  margin-bottom: 8px;
+}
+
+.zgy-ticket {
+  display: block;
+  color: #e8911b;
+  text-decoration: none;
+  cursor: default;
+}
+
+.zgy-voucher-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.zgy-voucher-no,
+.zgy-op {
+  color: #3078ff;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: default;
+}
+
+.zgy-voucher-tag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 24px;
+  align-items: center;
+  padding: 0 5px;
+  color: #409eff;
+  background: rgba(64, 158, 255, 0.1);
+  border-radius: 5px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.zgy-attachment-link {
+  min-width: 48px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #1f6fff;
+  background: #eef5ff;
+  border: 1px solid #b9d7ff;
+  border-radius: 4px;
+  padding: 0 7px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zgy-attachment-link small {
+  color: #6c93cc;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.zgy-attachment-link:hover {
+  border-color: #3078ff;
+  background: #e4efff;
+}
+
+.zgy-summary {
+  text-align: left !important;
+}
+
+.zgy-subject {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zgy-num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.zgy-pagination {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-right: 12px;
+  border-top: 1px solid #e3e3e3;
+  color: #555555;
+  background: #ffffff;
+}
+
+.zgy-page-size {
+  height: 28px;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  color: #333333;
+  background: #ffffff;
+}
+
+.zgy-page-arrow {
+  width: 24px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5c8cf;
+  background: transparent;
+  border: 0;
+}
+
+.zgy-page-current {
+  width: 24px;
+  height: 28px;
+  color: #3078ff;
+  border: 0;
+  background: transparent;
+  font-weight: 700;
+}
+
+.zgy-pagination input {
+  width: 46px;
+  height: 28px;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  color: #333333;
+  text-align: center;
+  outline: none;
+}
+
+.zgy-float-avatar {
+  position: fixed;
+  right: 6px;
+  top: 218px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 3px;
+  background: #ffffff;
+  border: 2px solid #dbe4ef;
+  box-shadow: 0 2px 8px rgba(31, 46, 84, 0.28);
+}
+
+.zgy-float-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.zgy-modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.zgy-attachment-modal {
+  width: 1200px;
+  height: 600px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+}
+
+.zgy-modal-header {
+  height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 20px;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.zgy-modal-header h2 {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.zgy-modal-header button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #999999;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.zgy-modal-toolbar {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 28px 0 20px;
+}
+
+.zgy-modal-count {
+  color: #333333;
+  white-space: nowrap;
+}
+
+.zgy-modal-count span {
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #9da3ad;
+  border-radius: 50%;
+  color: #667085;
+  font-size: 11px;
+}
+
+.zgy-storage {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #333333;
+}
+
+.zgy-storage svg {
+  color: #ff9a3d;
+  fill: #ff9a3d;
+  stroke-width: 0;
+}
+
+.zgy-storage i {
+  width: 100px;
+  height: 7px;
+  display: inline-block;
+  margin: 0 0 0 2px;
+  border-radius: 99px;
+  background: #e4e6eb;
+}
+
+.zgy-storage strong {
+  font-weight: 400;
+}
+
+.zgy-upload-btn {
+  width: 90px;
+  height: 30px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 0;
+  border-radius: 4px;
+  color: #ffffff;
+  background: #ff8448;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zgy-modal-body {
+  height: 498px;
+  display: grid;
+  grid-template-columns: 760px 1fr;
+  column-gap: 16px;
+  padding: 0 28px 0 17px;
+}
+
+.zgy-preview-panel {
+  position: relative;
+  height: 498px;
+  background: #eeeeee;
+  border-left: 16px solid #eeeeee;
+  border-right: 16px solid #eeeeee;
+  overflow: hidden;
+}
+
+.zgy-pdf-page {
+  width: 720px;
+  height: 456px;
+  margin-top: 16px;
+  margin-left: 0;
+  padding: 72px 34px 0;
+  background: #ffffff;
+  border-top: 3px solid #222222;
+  border-left: 3px solid #222222;
+  border-right: 3px solid #222222;
+}
+
+.zgy-pdf-title {
+  margin-bottom: 8px;
+  text-align: center;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.zgy-pdf-meta {
+  margin-bottom: 4px;
+  color: #333333;
+  font-size: 5px;
+  transform: scale(0.72);
+  transform-origin: left center;
+  white-space: nowrap;
+}
+
+.zgy-pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #111111;
+  font-size: 5px;
+}
+
+.zgy-pdf-table th,
+.zgy-pdf-table td {
+  height: 20px;
+  padding: 1px;
+  border: 1px solid #222222;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.zgy-pdf-table th {
+  font-weight: 500;
+}
+
+.zgy-preview-scroll {
+  position: absolute;
+  top: 19px;
+  right: 2px;
+  width: 8px;
+  height: 338px;
+  border-radius: 8px;
+  background: linear-gradient(#c4c4c4 0 100px, transparent 100px);
+}
+
+.zgy-attachment-info {
+  height: 498px;
+  padding: 14px 14px 12px;
+  background: #f3f4f6;
+  color: #555555;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.zgy-info-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #dfe2e7;
+}
+
+.zgy-file-badge {
+  height: 20px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #cdd1d6;
+  border-radius: 3px;
+  background: #ffffff;
+  color: #333333;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.zgy-attachment-info strong {
+  display: block;
+  color: #666666;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.zgy-attachment-info dl {
+  margin: 12px 0 0;
+}
+
+.zgy-attachment-info dl div {
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e4e8;
+}
+
+.zgy-attachment-info dt {
+  margin-bottom: 4px;
+  color: #8a8f99;
+  font-size: 12px;
+}
+
+.zgy-attachment-info dd {
+  margin: 0;
+  color: #333333;
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.zgy-upload-rule {
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid #c9defc;
+  border-radius: 4px;
+  color: #355f9a;
+  background: #edf5ff;
+}
+
+.zgy-upload-rule b {
+  display: block;
+  margin-bottom: 6px;
+  color: #1f6fff;
+}
+
+.zgy-upload-rule p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.zgy-empty-space {
+  height: 374px;
+  margin: 8px -12px 0;
+  background: #ffffff;
+}

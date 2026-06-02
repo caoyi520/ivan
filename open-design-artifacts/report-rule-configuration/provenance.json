@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-05-29",
+  "source": {
+    "type": "local_prototype",
+    "prototypePath": "src/prototypes/report-rule-configuration",
+    "builtPreview": "dist/prototypes/report-rule-configuration.html"
+  },
+  "designBasis": [
+    "skills/服务商设计规范/SKILL.md",
+    "/Users/caoyi/Documents/认款/PC共创-网页设计规范.md",
+    "/Users/caoyi/Documents/认款/pc-cocreate.visual-style.md"
+  ],
+  "notes": [
+    "Generated from the current local prototype build.",
+    "The artifact directory includes the HTML entry, compiled component bundle, and bootstrap runtime needed for preview.",
+    "No credentials or external provider data are stored."
+  ]
+}
