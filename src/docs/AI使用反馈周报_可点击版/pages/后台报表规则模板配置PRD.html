@@ -1,0 +1,269 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>后台报表规则模板配置 PRD.md</title><style>
+:root{color-scheme:light;--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff;}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.65;font-size:15px}.shell{max-width:1040px;margin:0 auto;padding:40px 24px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:34px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:32px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}p{margin:0 0 12px}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}ul{padding-left:22px}li{margin:5px 0}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.footer{margin-top:24px;color:var(--muted);font-size:13px}@media (max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px;border-radius:8px}h1{font-size:25px}}
+ article{max-width:900px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.raw{margin-top:18px}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回周报首页</a><h1>后台报表规则模板配置 PRD.md</h1><p class="lead">原项目路径：<span class="path">src/docs/后台报表规则模板配置PRD.md</span></p><p class="raw"><a href="../md/%E5%90%8E%E5%8F%B0%E6%8A%A5%E8%A1%A8%E8%A7%84%E5%88%99%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AEPRD.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>后台报表规则模板配置 PRD</h1>
+<h2>0. 文档信息</h2>
+<ul>
+<li>版本：<code>v1.0</code></li>
+<li>状态：<code>Draft</code></li>
+<li>目标用户：后台会计</li>
+<li>关联原型：<code>src/prototypes/report-rule-configuration</code></li>
+<li>需求范围：新建客户账套的初始报表规则模板配置</li>
+</ul>
+<hr>
+<h2>1. 背景与目标</h2>
+<h3>1.1 背景问题</h3>
+<p>后台需要为客户新建账套预置财务报表规则。如果缺少统一模板，会计需要在每个账套里重复配置报表项目、科目取数、表内公式和校验规则，容易出现科目漏绑、报表不平、初始规则口径不一致等问题。</p>
+<h3>1.2 业务目标</h3>
+<ol>
+<li>后台会计可以按会计准则维护标准化报表初始模板。</li>
+<li>新建客户账套时自动带入对应准则下的资产负债表、利润表规则。</li>
+<li>发布前明确校验报表平衡、科目漏绑、重复科目、公式引用和影响范围。</li>
+<li>发布后的模板只影响未来新建客户账套，不影响已有客户账套。</li>
+</ol>
+<h3>1.3 非目标</h3>
+<ol>
+<li>本期不做行业维度模板。</li>
+<li>本期不做发布审批、版本回滚和权限模型。</li>
+<li>本期不覆盖客户账套内的个性化规则管理。</li>
+<li>本期不配置报表列级规则，年初、本期、上期等列取数由系统代码规则固定。</li>
+</ol>
+<hr>
+<h2>2. 用户角色</h2>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>核心诉求</th>
+<th>本期权限假设</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>后台会计</td>
+<td>维护准则对应的初始报表规则模板</td>
+<td>查看、编辑、发布</td>
+</tr>
+<tr>
+<td>客户账套会计</td>
+<td>在自己账套内使用或修改初始化规则</td>
+<td>不在本后台原型范围内</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. MVP 范围</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>本期范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>会计准则</td>
+<td>企业会计准则、小企业会计准则</td>
+</tr>
+<tr>
+<td>报表类型</td>
+<td>资产负债表、利润表</td>
+</tr>
+<tr>
+<td>配置颗粒度</td>
+<td>报表项目行</td>
+</tr>
+<tr>
+<td>取数规则</td>
+<td>一个项目可绑定多个科目；每个科目支持搜索、<code>+ / -</code> 运算符、余额/借方余额/贷方余额/发生额等取值口径</td>
+</tr>
+<tr>
+<td>公式规则</td>
+<td>合计行支持表内项目相加减</td>
+</tr>
+<tr>
+<td>校验规则</td>
+<td>报表不平、科目漏绑、重复科目绑定、公式循环引用、影响范围确认</td>
+</tr>
+<tr>
+<td>发布规则</td>
+<td>会计直接发布；发布后回到总览；仅影响未来新建账套</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 核心用户故事</h2>
+<h3>US-01 按准则查看模板配置</h3>
+<p><strong>As a</strong> 后台会计<br><strong>I want to</strong> 在总览页选择企业会计准则或小企业会计准则<br><strong>So that</strong> 我能查看该准则下已配置的报表模板数量、规则状态和待发布变更</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 后台会计进入页面<br>When 选择某一会计准则<br>Then 页面展示该准则下的资产负债表和利润表模板。</p>
+</li>
+<li><p>Given 某准则存在待发布变更<br>When 查看总览指标<br>Then 可看到已配置报表数、规则数量、待发布变更和最近发布时间。</p>
+</li>
+</ol>
+<h3>US-02 配置报表项目行</h3>
+<p><strong>As a</strong> 后台会计<br><strong>I want to</strong> 打开某张报表的配置页并选择项目行<br><strong>So that</strong> 我能维护该项目的科目取数或表内公式</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 会计点击报表“配置”<br>When 进入配置页<br>Then 左侧展示接近真实报表的表样，右侧展示当前项目行配置。</p>
+</li>
+<li><p>Given 当前报表为资产负债表<br>When 进入配置页<br>Then 表样采用资产/负债和所有者权益左右结构。</p>
+</li>
+<li><p>Given 当前报表为利润表<br>When 进入配置页<br>Then 表样采用纵向项目结构，列名保留“本期金额 / 上期金额”。</p>
+</li>
+</ol>
+<h3>US-03 绑定科目取数规则</h3>
+<p><strong>As a</strong> 后台会计<br><strong>I want to</strong> 给普通项目行绑定一个或多个科目<br><strong>So that</strong> 系统能在新建账套时按模板生成项目取数规则</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 当前项目行为普通项目行<br>When 会计新增科目规则<br>Then 可搜索选择科目、选择 <code>+ / -</code> 运算符、选择取值口径。</p>
+</li>
+<li><p>Given 会计修改科目规则<br>When 保存草稿<br>Then 表样中的该项目行同步展示最新取值范围。</p>
+</li>
+</ol>
+<h3>US-04 设置表内公式</h3>
+<p><strong>As a</strong> 后台会计<br><strong>I want to</strong> 给合计行配置表内项目加减公式<br><strong>So that</strong> 系统能校验报表项目之间的勾稽关系</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 当前项目行为合计校验行<br>When 会计查看科目取值规则<br>Then 系统展示表内公式，不要求绑定科目。</p>
+</li>
+<li><p>Given 公式存在循环引用<br>When 发布前校验<br>Then 系统提示风险并阻断发布。</p>
+</li>
+</ol>
+<h3>US-05 发布模板</h3>
+<p><strong>As a</strong> 后台会计<br><strong>I want to</strong> 在配置完成后发布模板<br><strong>So that</strong> 未来新建客户账套可以使用最新初始报表规则</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 会计点击发布配置<br>When 发布前校验弹窗打开<br>Then 展示报表平衡、科目漏绑、重复科目、公式引用和影响范围提示。</p>
+</li>
+<li><p>Given 校验通过<br>When 会计确认发布<br>Then 模板发布成功，待发布变更清零，并回到总览页。</p>
+</li>
+<li><p>Given 模板发布成功<br>When 新客户账套按该准则创建<br>Then 系统带入该准则下已启用报表的初始规则。</p>
+</li>
+</ol>
+<hr>
+<h2>5. 业务流程</h2>
+<pre><code class="language-mermaid">flowchart TD
+  A[&quot;进入报表规则模板配置&quot;] --&gt; B[&quot;选择会计准则&quot;]
+  B --&gt; C[&quot;选择资产负债表或利润表&quot;]
+  C --&gt; D[&quot;进入报表配置页&quot;]
+  D --&gt; E[&quot;选择报表项目行&quot;]
+  E --&gt; F{&quot;规则类型&quot;}
+  F -- &quot;科目取数&quot; --&gt; G[&quot;绑定科目、运算符、取值口径&quot;]
+  F -- &quot;表内公式&quot; --&gt; H[&quot;配置项目行加减公式&quot;]
+  G --&gt; I[&quot;保存草稿&quot;]
+  H --&gt; I
+  I --&gt; J[&quot;点击发布&quot;]
+  J --&gt; K[&quot;发布前校验&quot;]
+  K --&gt; L{&quot;是否通过&quot;}
+  L -- &quot;通过&quot; --&gt; M[&quot;发布模板并回到总览&quot;]
+  L -- &quot;不通过&quot; --&gt; D
+</code></pre>
+<hr>
+<h2>6. 领域模型</h2>
+<table>
+<thead>
+<tr>
+<th>实体</th>
+<th>关键字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AccountingStandard</td>
+<td>id, name, version</td>
+<td>会计准则</td>
+</tr>
+<tr>
+<td>ReportTemplate</td>
+<td>id, standard_id, name, status, enabled</td>
+<td>报表模板</td>
+</tr>
+<tr>
+<td>ReportItem</td>
+<td>id, report_id, name, line_no, row_type</td>
+<td>报表项目行</td>
+</tr>
+<tr>
+<td>SubjectRule</td>
+<td>item_id, subject_code, operator, value_rule</td>
+<td>科目取数规则</td>
+</tr>
+<tr>
+<td>FormulaRule</td>
+<td>item_id, expression, referenced_items</td>
+<td>表内公式规则</td>
+</tr>
+<tr>
+<td>PublishCheck</td>
+<td>type, status, message</td>
+<td>发布前校验结果</td>
+</tr>
+<tr>
+<td>TemplateVersion</td>
+<td>version, published_at, published_by</td>
+<td>模板发布记录</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>7. 页面设计要求</h2>
+<h3>7.1 总览页</h3>
+<p>必须展示：</p>
+<ul>
+<li>准则列表：企业会计准则、小企业会计准则</li>
+<li>指标：已配置报表数、规则数、待发布变更、最近发布时间</li>
+<li>报表矩阵：启用状态、报表名称、周期、状态、关联规则、操作</li>
+<li>校验预览：发布就绪度、科目覆盖、风险提示</li>
+<li>当前报表真实预览</li>
+</ul>
+<h3>7.2 配置页</h3>
+<p>必须展示：</p>
+<ul>
+<li>返回总览、新增行、删除行、保存表样、发布配置</li>
+<li>真实表样区：资产负债表左右结构，利润表纵向结构</li>
+<li>当前行摘要：项目名称、规则类型、数据来源、公式预览</li>
+<li>行项目配置表单：项目名称、报表区域、行次、科目取值规则、取值范围、行类型、取值规则类型、取值公式、数据来源</li>
+</ul>
+<hr>
+<h2>8. 发布校验规则</h2>
+<table>
+<thead>
+<tr>
+<th>校验项</th>
+<th>触发时机</th>
+<th>通过条件</th>
+<th>不通过处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>报表平衡</td>
+<td>点击发布</td>
+<td>资产总计等于负债和所有者权益总计</td>
+<td>阻断发布</td>
+</tr>
+<tr>
+<td>科目漏绑</td>
+<td>点击发布</td>
+<td>普通项目行至少绑定一个科目</td>
+<td>阻断发布</td>
+</tr>
+<tr>
+<td>重复科目</td>
+<td>点击发布</td>
+<td>同一报表项目内无重复科目</td>
+<td>提示并要求修正</td>
+</tr>
+<tr>
+<td>公式循环引用</td>
+<td>点击发布</td>
+<td>表内公式不存在循环引用</td>
+<td>阻断发布</td>
+</tr>
+<tr>
+<td>影响范围确认</td>
+<td>点击发布</td>
+<td>明确仅影响未来新建账套</td>
+<td>展示确认提示</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>9. 客户侧规则关系</h2>
+<p>后台模板仅作为新建账套时的初始化来源。客户进入自己账套后，可以在账套范围内自定义修改报表规则。客户侧修改不回写后台模板，也不受后台后续发布覆盖。</p>
+</div></article></main></body></html>

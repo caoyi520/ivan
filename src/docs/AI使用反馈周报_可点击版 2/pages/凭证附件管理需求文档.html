@@ -1,0 +1,730 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>凭证附件管理需求文档.md</title><style>
+:root{color-scheme:light;--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff;}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.65;font-size:15px}.shell{max-width:1040px;margin:0 auto;padding:40px 24px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:34px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:32px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}p{margin:0 0 12px}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}ul{padding-left:22px}li{margin:5px 0}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.footer{margin-top:24px;color:var(--muted);font-size:13px}@media (max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px;border-radius:8px}h1{font-size:25px}}
+ article{max-width:900px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.raw{margin-top:18px}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回周报首页</a><h1>凭证附件管理需求文档.md</h1><p class="lead">原项目路径：<span class="path">src/docs/凭证附件管理需求文档.md</span></p><p class="raw"><a href="../md/%E5%87%AD%E8%AF%81%E9%99%84%E4%BB%B6%E7%AE%A1%E7%90%86%E9%9C%80%E6%B1%82%E6%96%87%E6%A1%A3.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>财务记账系统凭证附件上传迭代需求文档</h1>
+<h2>0. 文档信息</h2>
+<ul>
+<li>版本：<code>v1.0</code></li>
+<li>状态：<code>Draft</code></li>
+<li>需求类型：功能迭代</li>
+<li>关联模块：录凭证、查凭证、编辑凭证、凭证打印、附件预览</li>
+<li>目标用户：财务人员、审核人员、账套管理员、审计/查看人员</li>
+<li>更新时间：<code>2026-06-01</code></li>
+</ul>
+<h2>1. 背景与目标</h2>
+<h3>1.1 背景</h3>
+<p>在财务记账系统中，凭证是会计分录的正式记录，附件是证明凭证业务真实性和金额来源的原始依据。当前系统已在查凭证场景中存在“附单据”相关能力说明，但业务迭代要求进一步覆盖凭证全流程：录凭证时可上传附件，查凭证时可查看和补充附件，编辑凭证时可维护附件，并且附件变化会影响凭证打印、附件打印和相关展示口径。</p>
+<h3>1.2 业务目标</h3>
+<ol>
+<li>支持财务人员在录凭证、查凭证、编辑凭证三个核心场景中手动上传附件。</li>
+<li>建立凭证与附件的稳定绑定关系，保证后续审核、查账、结账和审计追溯时可查看原始依据。</li>
+<li>在凭证列表、凭证详情、编辑页和打印场景中统一展示附件数量和附件状态。</li>
+<li>保证附件新增、删除、替换等操作有权限控制和操作留痕。</li>
+</ol>
+<h3>1.3 非目标</h3>
+<ol>
+<li>本期不做附件自动识别生成凭证分录。</li>
+<li>本期不做 OCR 自动提取发票信息。</li>
+<li>本期不做附件跨凭证复用管理。</li>
+<li>本期不改造凭证核心借贷平衡、审核、过账或结账规则。</li>
+</ol>
+<h2>2. 业务范围</h2>
+<h3>2.1 本期纳入</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>本期能力</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>录凭证</td>
+<td>新增凭证时支持手动上传附件，保存凭证后附件绑定到该凭证</td>
+</tr>
+<tr>
+<td>查凭证</td>
+<td>凭证列表展示附件数量，支持查看、上传、下载、删除附件</td>
+</tr>
+<tr>
+<td>编辑凭证</td>
+<td>编辑已有凭证时支持查看和维护附件</td>
+</tr>
+<tr>
+<td>打印</td>
+<td>凭证打印时展示附件张数，并支持按配置打印附件或附件清单</td>
+</tr>
+<tr>
+<td>权限与日志</td>
+<td>上传、删除、下载、打印附件受权限控制，并记录操作日志</td>
+</tr>
+</tbody></table>
+<h3>2.2 本期不纳入</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动采集附件</td>
+<td>发票采集、银行流水、业务单据自动回传暂不纳入本期</td>
+</tr>
+<tr>
+<td>附件审批流</td>
+<td>附件单独提交、单独审核暂不纳入本期</td>
+</tr>
+<tr>
+<td>附件内容结构化</td>
+<td>不对 PDF、图片、Excel 内容做结构化入库</td>
+</tr>
+<tr>
+<td>批量附件归档</td>
+<td>批量打包归档、长期冷存储策略暂不展开</td>
+</tr>
+</tbody></table>
+<h2>3. 用户角色</h2>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>核心诉求</th>
+<th>关键权限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>制单人</td>
+<td>录入凭证时上传业务佐证材料，后续可补充或修正附件</td>
+<td>上传、查看、删除本人有权维护的附件</td>
+</tr>
+<tr>
+<td>审核人</td>
+<td>审核凭证时查看附件是否完整、真实</td>
+<td>查看、下载、打印附件</td>
+</tr>
+<tr>
+<td>账套管理员</td>
+<td>管理账套附件容量、权限和异常文件</td>
+<td>查看、上传、删除、下载、打印</td>
+</tr>
+<tr>
+<td>审计/查看人员</td>
+<td>追溯凭证依据，查看附件和打印凭证材料</td>
+<td>查看、下载、打印，默认不可修改</td>
+</tr>
+</tbody></table>
+<h2>4. 核心业务规则</h2>
+<h3>4.1 凭证与附件关系</h3>
+<ol>
+<li>一张凭证可以绑定 <code>0</code> 个、<code>1</code> 个或多个附件。</li>
+<li>一个手动上传附件默认只绑定到一张凭证。</li>
+<li>附件不改变凭证分录本身的借贷金额、摘要、科目、制单人、审核状态。</li>
+<li>附件数量应在凭证列表、凭证详情、编辑页和打印页保持一致。</li>
+<li>凭证删除、红冲或作废后，附件不应被物理删除，应保留审计追溯记录。</li>
+</ol>
+<h3>4.2 附件来源</h3>
+<p>本期附件来源包括：</p>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>手动上传</td>
+<td>用户在录凭证、查凭证、编辑凭证中主动上传</td>
+</tr>
+<tr>
+<td>历史附件</td>
+<td>迭代上线前已存在的凭证附件数据</td>
+</tr>
+</tbody></table>
+<p>后续可扩展来源包括：发票采集、银行流水、智能记账、业务系统回传。</p>
+<h3>4.3 常见附件类型</h3>
+<ul>
+<li>发票：销项发票、进项发票、费用发票。</li>
+<li>银行单据：银行回单、流水截图、收付款凭证。</li>
+<li>工资社保：工资表、社保公积金缴费单、个税申报表。</li>
+<li>合同与结算：销售合同、采购合同、对账单、结算单。</li>
+<li>税务与结转：申报表、结转测算表、成本结转明细。</li>
+<li>其他：审批单、说明文件、截图类佐证材料。</li>
+</ul>
+<h2>5. 用户故事与验收标准</h2>
+<h3>US-01 录凭证时上传附件</h3>
+<p><strong>As a</strong> 制单人<br><strong>I want to</strong> 在新增凭证时直接上传业务附件<br><strong>So that</strong> 凭证保存后就能带有完整佐证材料</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 用户进入录凭证页面<br>When 页面初始化完成<br>Then 页面展示附件上传入口和当前附件数量。</p>
+</li>
+<li><p>Given 用户尚未保存凭证<br>When 上传附件成功<br>Then 附件进入临时绑定状态，并在页面中展示文件名、大小、上传进度和删除入口。</p>
+</li>
+<li><p>Given 用户已上传附件但取消录凭证<br>When 用户确认离开或取消<br>Then 临时附件不绑定到正式凭证，并按系统清理策略处理。</p>
+</li>
+<li><p>Given 用户已上传附件并保存凭证成功<br>When 凭证生成正式编号<br>Then 附件绑定到该凭证，附件数量同步更新。</p>
+</li>
+</ol>
+<h3>US-02 查凭证时查看和补传附件</h3>
+<p><strong>As a</strong> 财务人员<br><strong>I want to</strong> 在查凭证列表中看到附件数量并补传附件<br><strong>So that</strong> 我可以快速发现资料缺失并补齐</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 用户进入查凭证页面<br>When 凭证列表加载完成<br>Then “附单据/附件”列展示每张凭证的附件数量，例如 <code>0张</code>、<code>1张</code>、<code>7张</code>。</p>
+</li>
+<li><p>Given 用户点击附件数量<br>When 用户有查看权限<br>Then 打开“单据附件”弹窗，展示当前凭证附件列表、预览区和上传入口。</p>
+</li>
+<li><p>Given 用户在弹窗内上传附件成功<br>When 返回凭证列表<br>Then 当前凭证附件数量同步增加。</p>
+</li>
+<li><p>Given 用户没有附件查看权限<br>When 点击附件数量<br>Then 系统提示无权限，不展示附件内容。</p>
+</li>
+</ol>
+<h3>US-03 编辑凭证时维护附件</h3>
+<p><strong>As a</strong> 制单人或账套管理员<br><strong>I want to</strong> 在编辑凭证时补充、删除或替换附件<br><strong>So that</strong> 我可以保持凭证资料与实际业务一致</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 用户打开编辑凭证页面<br>When 凭证存在附件<br>Then 页面展示附件数量、附件列表入口和最近上传信息。</p>
+</li>
+<li><p>Given 用户上传新附件<br>When 上传成功<br>Then 附件绑定到当前凭证，编辑页附件数量更新。</p>
+</li>
+<li><p>Given 用户删除附件<br>When 用户确认删除且有权限<br>Then 附件状态变更为已删除，页面不再展示为有效附件，系统记录操作日志。</p>
+</li>
+<li><p>Given 当前凭证处于已结账、已归档或锁定期间<br>When 用户尝试上传、删除或替换附件<br>Then 系统按权限和期间规则控制是否允许操作。</p>
+</li>
+</ol>
+<h3>US-04 打印凭证时体现附件信息</h3>
+<p><strong>As a</strong> 财务人员或审计人员<br><strong>I want to</strong> 打印凭证时能体现附件张数，并按需打印附件<br><strong>So that</strong> 纸质归档或审计资料保持完整</p>
+<p><strong>验收标准</strong></p>
+<ol>
+<li><p>Given 凭证存在附件<br>When 用户打印凭证<br>Then 凭证打印版展示附件张数。</p>
+</li>
+<li><p>Given 用户选择“打印凭证及附件”<br>When 附件格式支持打印<br>Then 系统按凭证顺序输出凭证页和附件页。</p>
+</li>
+<li><p>Given 附件格式不支持直接打印<br>When 用户打印附件<br>Then 系统在附件清单中展示文件名、类型、上传人、上传时间，并提示该附件需下载后查看。</p>
+</li>
+<li><p>Given 用户无附件打印权限<br>When 打印凭证<br>Then 仅允许打印凭证正文，不输出附件内容。</p>
+</li>
+</ol>
+<h2>6. 页面功能说明</h2>
+<h3>6.1 录凭证页面</h3>
+<h4>6.1.1 入口位置</h4>
+<ul>
+<li>在凭证录入区域增加“附件”模块。</li>
+<li>模块展示当前附件数量，例如 <code>附件 0张</code>。</li>
+<li>提供“上传附件”按钮。</li>
+<li>上传后展示附件列表，至少包含附件名称、文件大小、上传状态、删除操作。</li>
+</ul>
+<h4>6.1.2 交互规则</h4>
+<ol>
+<li>用户可在保存凭证前上传附件。</li>
+<li>上传中的附件应展示进度或处理中状态。</li>
+<li>上传失败时展示失败原因，并允许重新上传。</li>
+<li>凭证保存失败时，不应生成正式附件绑定关系。</li>
+<li>页面离开前如存在已上传但未保存的临时附件，应提示用户确认。</li>
+</ol>
+<h3>6.2 查凭证页面</h3>
+<h4>6.2.1 附件数量入口</h4>
+<ul>
+<li>凭证列表保留“附单据/附件”列。</li>
+<li>数量区域使用可点击样式，明确表达可查看。</li>
+<li>附件数量为 <code>0张</code> 时仍可点击进入上传。</li>
+<li>列表刷新、上传成功、删除成功后，数量应同步刷新。</li>
+</ul>
+<h4>6.2.2 单据附件弹窗</h4>
+<p>弹窗包含以下区域：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标题区</td>
+<td>展示“单据附件”和凭证字号/凭证日期</td>
+</tr>
+<tr>
+<td>统计区</td>
+<td>展示附件总数、当前预览序号、附件空间使用量</td>
+</tr>
+<tr>
+<td>操作区</td>
+<td>上传、下载、删除、打印附件，按权限展示</td>
+</tr>
+<tr>
+<td>列表区</td>
+<td>展示附件名称、类型、大小、来源、上传人、上传时间</td>
+</tr>
+<tr>
+<td>预览区</td>
+<td>支持图片、PDF 预览；不支持预览的文件展示文件图标和下载入口</td>
+</tr>
+</tbody></table>
+<h3>6.3 编辑凭证页面</h3>
+<h4>6.3.1 入口位置</h4>
+<ul>
+<li>在编辑凭证页面展示与录凭证一致的附件模块。</li>
+<li>已有附件默认展示在附件列表中。</li>
+<li>如凭证状态不允许维护附件，上传和删除操作置灰或隐藏，并展示原因。</li>
+</ul>
+<h4>6.3.2 编辑影响</h4>
+<ol>
+<li>修改凭证分录不影响已绑定附件。</li>
+<li>删除附件不影响凭证分录。</li>
+<li>保存凭证修改时，附件变更和凭证变更应分别记录日志。</li>
+<li>附件维护失败不应导致凭证分录保存结果被误判，具体事务策略需由技术方案确认。</li>
+</ol>
+<h3>6.4 打印功能</h3>
+<h4>6.4.1 打印入口</h4>
+<p>打印入口涉及以下位置：</p>
+<table>
+<thead>
+<tr>
+<th>入口</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查凭证列表打印</td>
+<td>支持打印选中凭证，并按配置决定是否包含附件</td>
+</tr>
+<tr>
+<td>凭证详情/编辑页打印</td>
+<td>支持打印当前凭证，并按配置决定是否包含附件</td>
+</tr>
+<tr>
+<td>附件弹窗打印</td>
+<td>支持单独打印当前附件或附件清单</td>
+</tr>
+</tbody></table>
+<h4>6.4.2 打印模式</h4>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>仅打印凭证</td>
+<td>只输出凭证正文，凭证上展示附件张数</td>
+</tr>
+<tr>
+<td>打印凭证及附件</td>
+<td>输出凭证正文和可打印附件内容</td>
+</tr>
+<tr>
+<td>仅打印附件清单</td>
+<td>输出附件列表信息，不输出附件原文</td>
+</tr>
+<tr>
+<td>仅打印当前附件</td>
+<td>在附件弹窗中打印当前预览附件</td>
+</tr>
+</tbody></table>
+<h4>6.4.3 打印规则</h4>
+<ol>
+<li>凭证正文上的附件张数取有效附件数量，不包含已删除附件。</li>
+<li>批量打印多张凭证时，应按凭证顺序输出，每张凭证后跟随该凭证附件。</li>
+<li>图片、PDF 可直接进入打印预览。</li>
+<li>Word、Excel、压缩包等不支持在线打印的文件，进入附件清单，不直接转印。</li>
+<li>打印附件时应记录操作日志，至少包含操作人、操作时间、凭证 ID、附件 ID、打印模式。</li>
+</ol>
+<h2>7. 上传与文件规则</h2>
+<h3>7.1 支持格式</h3>
+<p>建议支持以下格式：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>图片</td>
+<td><code>jpg</code>、<code>jpeg</code>、<code>png</code>、<code>bmp</code>、<code>webp</code></td>
+</tr>
+<tr>
+<td>文档</td>
+<td><code>pdf</code>、<code>doc</code>、<code>docx</code>、<code>xls</code>、<code>xlsx</code></td>
+</tr>
+<tr>
+<td>压缩包</td>
+<td><code>zip</code>、<code>rar</code>、<code>7z</code></td>
+</tr>
+<tr>
+<td>其他</td>
+<td>可由系统配置扩展</td>
+</tr>
+</tbody></table>
+<h3>7.2 文件限制</h3>
+<ol>
+<li>单个文件大小受系统配置限制。</li>
+<li>单张凭证附件数量受系统配置限制。</li>
+<li>单个账套附件总容量受系统配置限制。</li>
+<li>文件名保留原始名称，系统生成唯一文件标识，避免同名覆盖。</li>
+<li>上传成功后自动记录上传人、上传时间、文件大小、文件类型、附件来源。</li>
+</ol>
+<h3>7.3 同名文件处理</h3>
+<p>同一凭证下上传同名文件时，建议系统提示用户选择：</p>
+<table>
+<thead>
+<tr>
+<th>处理方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>保留两份</td>
+<td>新文件按同名副本保存，例如 <code>发票.pdf</code>、<code>发票(1).pdf</code></td>
+</tr>
+<tr>
+<td>替换原文件</td>
+<td>原附件状态变更为已替换，新附件成为有效附件</td>
+</tr>
+<tr>
+<td>取消上传</td>
+<td>不保存新文件</td>
+</tr>
+</tbody></table>
+<h2>8. 权限与状态控制</h2>
+<h3>8.1 权限矩阵</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>制单人</th>
+<th>审核人</th>
+<th>账套管理员</th>
+<th>审计/查看人员</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看附件数量</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>查看附件内容</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>上传附件</td>
+<td>Y</td>
+<td>N</td>
+<td>Y</td>
+<td>N</td>
+</tr>
+<tr>
+<td>删除附件</td>
+<td>Y</td>
+<td>N</td>
+<td>Y</td>
+<td>N</td>
+</tr>
+<tr>
+<td>下载附件</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>打印附件</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>查看操作日志</td>
+<td>N</td>
+<td>N</td>
+<td>Y</td>
+<td>N</td>
+</tr>
+</tbody></table>
+<p>实际权限以系统角色配置为准，以上为默认建议。</p>
+<h3>8.2 凭证状态控制</h3>
+<table>
+<thead>
+<tr>
+<th>凭证状态</th>
+<th>查看</th>
+<th>上传</th>
+<th>删除</th>
+<th>打印</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>草稿/未审核</td>
+<td>允许</td>
+<td>允许</td>
+<td>允许</td>
+<td>允许</td>
+</tr>
+<tr>
+<td>已审核</td>
+<td>允许</td>
+<td>按权限允许</td>
+<td>按权限允许</td>
+<td>允许</td>
+</tr>
+<tr>
+<td>已结账</td>
+<td>允许</td>
+<td>默认禁止，可配置补传</td>
+<td>默认禁止</td>
+<td>允许</td>
+</tr>
+<tr>
+<td>已归档</td>
+<td>允许</td>
+<td>禁止</td>
+<td>禁止</td>
+<td>允许</td>
+</tr>
+<tr>
+<td>已作废/红冲</td>
+<td>允许</td>
+<td>禁止</td>
+<td>禁止</td>
+<td>允许</td>
+</tr>
+</tbody></table>
+<p>如业务允许已结账期间补传附件，需填写补传原因并记录日志。</p>
+<h2>9. 数据字段</h2>
+<h3>9.1 凭证侧字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>voucherId</code></td>
+<td>凭证唯一标识</td>
+</tr>
+<tr>
+<td><code>voucherNo</code></td>
+<td>凭证号</td>
+</tr>
+<tr>
+<td><code>voucherDate</code></td>
+<td>凭证日期</td>
+</tr>
+<tr>
+<td><code>attachmentCount</code></td>
+<td>当前有效附件数量</td>
+</tr>
+<tr>
+<td><code>attachmentPrintableCount</code></td>
+<td>当前可直接打印附件数量</td>
+</tr>
+<tr>
+<td><code>hasAttachment</code></td>
+<td>是否存在有效附件</td>
+</tr>
+</tbody></table>
+<h3>9.2 附件侧字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>attachmentId</code></td>
+<td>附件唯一标识</td>
+</tr>
+<tr>
+<td><code>voucherId</code></td>
+<td>绑定凭证 ID</td>
+</tr>
+<tr>
+<td><code>attachmentType</code></td>
+<td>附件类型</td>
+</tr>
+<tr>
+<td><code>attachmentName</code></td>
+<td>附件名称</td>
+</tr>
+<tr>
+<td><code>originalFileName</code></td>
+<td>原始文件名</td>
+</tr>
+<tr>
+<td><code>fileUrl</code></td>
+<td>文件预览或下载地址</td>
+</tr>
+<tr>
+<td><code>fileSize</code></td>
+<td>文件大小</td>
+</tr>
+<tr>
+<td><code>fileExt</code></td>
+<td>文件扩展名</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>附件来源，如手动上传、历史附件</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>附件状态，如临时、正常、已删除、已替换、归档</td>
+</tr>
+<tr>
+<td><code>uploadedBy</code></td>
+<td>上传人</td>
+</tr>
+<tr>
+<td><code>uploadTime</code></td>
+<td>上传时间</td>
+</tr>
+<tr>
+<td><code>deletedBy</code></td>
+<td>删除人</td>
+</tr>
+<tr>
+<td><code>deleteTime</code></td>
+<td>删除时间</td>
+</tr>
+<tr>
+<td><code>deleteReason</code></td>
+<td>删除原因</td>
+</tr>
+</tbody></table>
+<h3>9.3 操作日志字段</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>logId</code></td>
+<td>日志唯一标识</td>
+</tr>
+<tr>
+<td><code>voucherId</code></td>
+<td>凭证 ID</td>
+</tr>
+<tr>
+<td><code>attachmentId</code></td>
+<td>附件 ID</td>
+</tr>
+<tr>
+<td><code>operationType</code></td>
+<td>上传、删除、替换、下载、打印、预览</td>
+</tr>
+<tr>
+<td><code>operatorId</code></td>
+<td>操作人 ID</td>
+</tr>
+<tr>
+<td><code>operationTime</code></td>
+<td>操作时间</td>
+</tr>
+<tr>
+<td><code>operationSource</code></td>
+<td>操作入口，如录凭证、查凭证、编辑凭证、打印</td>
+</tr>
+<tr>
+<td><code>remark</code></td>
+<td>操作备注或补传原因</td>
+</tr>
+</tbody></table>
+<h2>10. 异常与边界</h2>
+<ol>
+<li>凭证无附件时，附件弹窗仍可打开，并展示空状态和上传入口。</li>
+<li>上传空文件、超出大小限制、格式不支持时，应阻止上传并提示原因。</li>
+<li>上传失败时不改变凭证附件数量。</li>
+<li>网络中断时保留原附件列表，并提示用户稍后重试。</li>
+<li>附件无法预览时，展示文件图标、名称、大小和下载入口。</li>
+<li>多人同时上传或删除时，以服务端最终附件列表为准，前端刷新后展示最新数量。</li>
+<li>用户无查看权限时，可按产品策略选择展示数量但不展示内容，或完全隐藏附件列。</li>
+<li>临时附件清理策略需避免误删已正式绑定附件。</li>
+<li>病毒扫描或安全校验失败的文件不得绑定到凭证。</li>
+</ol>
+<h2>11. 指标与埋点建议</h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>附件上传成功率</td>
+<td>判断上传能力稳定性</td>
+</tr>
+<tr>
+<td>附件上传失败原因分布</td>
+<td>定位格式、大小、网络等问题</td>
+</tr>
+<tr>
+<td>每张凭证平均附件数</td>
+<td>评估功能使用强度</td>
+</tr>
+<tr>
+<td>打印凭证及附件次数</td>
+<td>评估打印联动使用情况</td>
+</tr>
+<tr>
+<td>已结账期间补传次数</td>
+<td>监控补传规则是否被频繁触发</td>
+</tr>
+<tr>
+<td>附件删除次数</td>
+<td>识别异常删除或流程不清晰问题</td>
+</tr>
+</tbody></table>
+<h2>12. 验收清单</h2>
+<h3>12.1 功能验收</h3>
+<ul>
+<li>录凭证页面可上传、查看、删除未保存凭证的临时附件。</li>
+<li>凭证保存成功后，临时附件正式绑定到凭证。</li>
+<li>查凭证列表展示附件数量，点击后可打开附件弹窗。</li>
+<li>查凭证弹窗可上传、预览、下载、删除附件。</li>
+<li>编辑凭证页面可查看和维护当前凭证附件。</li>
+<li>附件上传、删除后，录凭证/查凭证/编辑凭证中的附件数量保持一致。</li>
+<li>凭证打印版展示有效附件张数。</li>
+<li>打印时支持仅打印凭证、打印凭证及附件、仅打印附件清单、仅打印当前附件。</li>
+</ul>
+<h3>12.2 权限验收</h3>
+<ul>
+<li>无上传权限用户不能上传附件。</li>
+<li>无删除权限用户不能删除附件。</li>
+<li>无查看权限用户不能查看附件内容。</li>
+<li>已结账、已归档、已作废或红冲凭证遵守状态限制。</li>
+<li>已结账期间补传附件时，如配置允许，必须记录补传原因。</li>
+</ul>
+<h3>12.3 数据与日志验收</h3>
+<ul>
+<li>上传成功后记录附件元数据。</li>
+<li>删除附件后不物理删除文件记录，状态变更为已删除。</li>
+<li>上传、删除、替换、下载、打印操作均记录日志。</li>
+<li>凭证附件数量只统计有效附件。</li>
+<li>批量打印时凭证与附件顺序正确。</li>
+</ul>
+<h2>13. 待确认事项</h2>
+<p>以下问题需要产品、业务或技术评审时确认：</p>
+<ol>
+<li>单个附件最大大小、单张凭证最大附件数、单账套总容量限制是多少。</li>
+<li>已审核但未结账凭证是否允许普通制单人继续补传或删除附件。</li>
+<li>已结账期间是否允许补传附件，如允许，是否必须填写补传原因。</li>
+<li>凭证打印默认模式是“仅打印凭证”还是“打印凭证及附件”。</li>
+<li>附件张数口径是否按文件数统计，还是图片/PDF 页数也要折算为张数。</li>
+<li>Word、Excel 是否需要服务端转换为 PDF 后打印，还是仅进入附件清单。</li>
+<li>附件删除是否需要二次确认或填写删除原因。</li>
+<li>是否需要配置关键凭证类型的附件必传规则。</li>
+<li>查凭证列表附件列名称沿用“附单据”，还是统一调整为“附件”。</li>
+<li>用户无查看权限时，是否仍展示附件数量。</li>
+</ol>
+</div></article></main></body></html>

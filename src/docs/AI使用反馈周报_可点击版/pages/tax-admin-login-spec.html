@@ -1,0 +1,245 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>财税管理后台登录页 spec.md</title><style>
+:root{color-scheme:light;--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff;}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.65;font-size:15px}.shell{max-width:1040px;margin:0 auto;padding:40px 24px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:34px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:32px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}p{margin:0 0 12px}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}ul{padding-left:22px}li{margin:5px 0}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.footer{margin-top:24px;color:var(--muted);font-size:13px}@media (max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px;border-radius:8px}h1{font-size:25px}}
+ article{max-width:900px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.raw{margin-top:18px}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回周报首页</a><h1>财税管理后台登录页 spec.md</h1><p class="lead">原项目路径：<span class="path">src/prototypes/tax-admin-login/spec.md</span></p><p class="raw"><a href="../md/tax-admin-login-spec.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>财税管理后台登录页</h1>
+<h2>📋 业务与功能</h2>
+<h3>1.1 核心目标</h3>
+<p>财税管理后台登录页面面向企业财务、税务专员、代账服务人员与管理者，用于安全进入申报、票据、凭证、风险预警等财税工作台。页面目标是在登录前建立“合规、可靠、可追溯”的信任感，同时减少用户在多公司、多租户场景下的登录误入。</p>
+<h3>1.2 功能清单</h3>
+<ul>
+<li><strong>品牌与系统定位</strong>：展示“云账税控台”名称、企业级安全与合规标签。</li>
+<li><strong>租户选择</strong>：支持选择企业主体，避免财务人员进入错误账套。</li>
+<li><strong>账号登录表单</strong>：包含手机号/工号、密码、验证码与记住设备。</li>
+<li><strong>登录反馈</strong>：提交时显示加载状态，成功后触发外部事件。</li>
+<li><strong>辅助入口</strong>：忘记密码、统一身份登录、CA/税控盘入口。</li>
+<li><strong>可信信息展示</strong>：展示合规状态、申报倒计时、票据同步、风险提示等登录前摘要。</li>
+</ul>
+<h3>1.3 交互要点</h3>
+<ul>
+<li>切换企业主体：刷新当前租户状态，并触发 <code>onTenantChange</code> 事件。</li>
+<li>点击“登录工作台”：校验必填字段，按钮进入加载态，完成后触发 <code>onLoginSubmit</code> 事件。</li>
+<li>点击“忘记密码”：触发 <code>onForgotPassword</code> 事件。</li>
+<li>点击“统一身份登录”：触发 <code>onSsoLogin</code> 事件，用于对接企业 SSO 或 CA 登录。</li>
+<li>输入框聚焦：展示清晰聚焦描边，满足键盘操作与可访问性要求。</li>
+</ul>
+<hr>
+<h2>📊 内容规划</h2>
+<h3>2.1 信息架构</h3>
+<pre><code class="language-text">财税管理后台登录页
+├── 左侧信任与业务摘要
+│   ├── 品牌标识与系统定位
+│   ├── 合规状态卡片
+│   ├── 申报日历摘要
+│   └── 风险与票据同步提示
+└── 右侧登录操作区
+    ├── 登录标题与安全提示
+    ├── 企业主体选择
+    ├── 账号、密码、验证码
+    ├── 记住设备与忘记密码
+    ├── 主登录按钮
+    └── 统一身份/CA 登录入口
+</code></pre>
+<h3>2.2 数据来源</h3>
+<ul>
+<li><strong>数据类型</strong>：企业主体、登录安全提示、财税摘要指标</li>
+<li><strong>数据源</strong>：生成示例数据，可由外部 <code>data.tenants</code>、<code>data.noticeItems</code> 覆盖</li>
+<li><strong>关键字段</strong>：<ul>
+<li><code>id</code>: 企业主体唯一标识</li>
+<li><code>name</code>: 企业主体名称</li>
+<li><code>taxNo</code>: 纳税人识别号</li>
+<li><code>status</code>: 当前账套合规状态</li>
+<li><code>noticeItems</code>: 登录页左侧摘要信息列表</li>
+</ul>
+</li>
+</ul>
+<h3>2.3 内容示例</h3>
+<ul>
+<li>企业主体：上海云衡科技有限公司</li>
+<li>纳税人识别号：91310000MA1K3TAX8F</li>
+<li>安全提示：本系统已启用等保二级访问审计</li>
+<li>风险摘要：本月 3 项进项发票待认证，1 项申报差异需复核</li>
+</ul>
+<hr>
+<h2>🎨 布局与结构</h2>
+<h3>3.1 整体布局</h3>
+<ul>
+<li><strong>布局模式</strong>：桌面端双栏登录网关，左侧为业务信任摘要，右侧为登录表单。</li>
+<li><strong>容器宽度</strong>：全屏流式布局，内容最大宽度约 1180px。</li>
+<li><strong>关键尺寸</strong>：<ul>
+<li>左侧摘要区：桌面端约 56% 宽度，承载品牌与状态信息。</li>
+<li>右侧登录区：桌面端约 420px 宽度，保持表单聚焦。</li>
+<li>登录输入框：高度不低于 44px，满足触控与可访问性。</li>
+</ul>
+</li>
+</ul>
+<h3>3.2 响应式适配</h3>
+<ul>
+<li><strong>桌面端（≥1200px）</strong>：左右双栏，左侧摘要与右侧登录同时可见。</li>
+<li><strong>平板端（768-1199px）</strong>：保持双栏但收紧边距，左侧摘要减少装饰层级。</li>
+<li><strong>移动端（&lt;768px）</strong>：切换为单列，登录表单优先展示，业务摘要置于表单下方。</li>
+</ul>
+<hr>
+<h2>🎨 视觉规范</h2>
+<h3>4.1 设计规范来源</h3>
+<p><strong>设计规范来源</strong>：主题 <code>/src/themes/antd-new</code> + 用户指定 Skill <code>/Users/caoyi/.codex/skills/ui-ux-pro-max/SKILL.md</code></p>
+<p><strong>说明</strong>：基础组件遵循 Ant Design 中后台规范；视觉方向使用 <code>ui-ux-pro-max</code> 生成的 Enterprise Gateway / Accessible &amp; Ethical 方案，并根据中文财税后台场景调整为默认浅色、高信任、低干扰界面。</p>
+<h3>4.2 自定义设计要点</h3>
+<p><strong>自定义色彩</strong>：</p>
+<ul>
+<li>深海军蓝 <code>#1E3A5F</code>：品牌标识、标题和关键边框。</li>
+<li>合规绿 <code>#059669</code>：安全状态、通过校验、主操作强调。</li>
+<li>票据琥珀 <code>#B7791F</code>：申报提醒与待复核风险。</li>
+<li>账本纸白 <code>#F7F3EA</code>：左侧账本纹理背景，传达财税文档感。</li>
+</ul>
+<p><strong>自定义尺寸</strong>：</p>
+<ul>
+<li>主容器最小高度：<code>100dvh</code></li>
+<li>登录面板圆角：<code>8px</code></li>
+<li>输入框最小高度：<code>44px</code></li>
+<li>桌面内容最大宽度：<code>1180px</code></li>
+</ul>
+<p><strong>其他自定义规范</strong>：</p>
+<ul>
+<li>不使用表情符号作为结构图标，统一使用 Ant Design 图标。</li>
+<li>中文文案使用 <code>word-break: keep-all</code>，避免孤字换行。</li>
+<li>减少纯装饰动画，状态变化仅使用 150-240ms 微交互。</li>
+</ul>
+<h3>4.3 组件状态</h3>
+<ul>
+<li><strong>默认态（default）</strong>：浅色背景、明确分区、主按钮使用合规绿。</li>
+<li><strong>悬停态（hover）</strong>：按钮和辅助入口颜色加深，左侧信息块轻微边框强化。</li>
+<li><strong>聚焦态（focus）</strong>：输入框显示高对比聚焦环，支持键盘可见定位。</li>
+<li><strong>禁用态（disabled）</strong>：登录提交期间按钮不可重复点击，并显示加载态。</li>
+<li><strong>错误态（error）</strong>：表单校验在字段下方展示清晰中文错误。</li>
+<li><strong>加载态（loading）</strong>：登录按钮展示加载状态，避免重复提交。</li>
+</ul>
+<hr>
+<h2>⚙️ Axure API 说明</h2>
+<h3>5.1 事件列表（eventList）</h3>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>Payload 类型</th>
+<th>触发时机</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>onLoginSubmit</code></td>
+<td><code>string</code></td>
+<td>登录表单提交成功</td>
+<td>返回登录表单与租户信息 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>onTenantChange</code></td>
+<td><code>string</code></td>
+<td>切换企业主体</td>
+<td>返回当前企业主体 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>onForgotPassword</code></td>
+<td><code>string</code></td>
+<td>点击忘记密码</td>
+<td>返回当前租户 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>onSsoLogin</code></td>
+<td><code>string</code></td>
+<td>点击统一身份登录</td>
+<td>返回当前租户 JSON 字符串</td>
+</tr>
+</tbody></table>
+<h3>5.2 动作列表（actionList）</h3>
+<table>
+<thead>
+<tr>
+<th>动作名称</th>
+<th>Params 类型</th>
+<th>参数说明</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>submit_login</code></td>
+<td><code>string</code></td>
+<td>可为空</td>
+<td>触发一次模拟登录提交</td>
+</tr>
+<tr>
+<td><code>switch_tenant</code></td>
+<td><code>string</code></td>
+<td>企业主体 <code>id</code></td>
+<td>切换当前企业主体</td>
+</tr>
+</tbody></table>
+<h3>5.3 变量列表（varList）</h3>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>current_tenant</code></td>
+<td><code>object</code></td>
+<td>第一家企业主体</td>
+<td>当前选中的企业主体</td>
+</tr>
+<tr>
+<td><code>login_status</code></td>
+<td><code>string</code></td>
+<td><code>idle</code></td>
+<td>当前登录状态</td>
+</tr>
+</tbody></table>
+<p><strong>命名规范</strong>：使用 snake_case（小写字母、数字、下划线）</p>
+<h3>5.4 配置项列表（configList）</h3>
+<table>
+<thead>
+<tr>
+<th>配置项名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>systemName</code></td>
+<td><code>string</code></td>
+<td>云账税控台</td>
+<td>系统名称</td>
+</tr>
+<tr>
+<td><code>subtitle</code></td>
+<td><code>string</code></td>
+<td>企业财税合规管理后台</td>
+<td>系统说明</td>
+</tr>
+<tr>
+<td><code>securityText</code></td>
+<td><code>string</code></td>
+<td>已启用等保二级访问审计</td>
+<td>登录安全提示</td>
+</tr>
+</tbody></table>
+<h3>5.5 数据项列表（dataList）</h3>
+<p><strong>数据结构</strong>：</p>
+<pre><code class="language-typescript">{
+  tenants: Array&lt;{
+    id: string;
+    name: string;
+    taxNo: string;
+    status: string;
+  }&gt;;
+  noticeItems: Array&lt;{
+    label: string;
+    value: string;
+    tone: &#39;safe&#39; | &#39;warning&#39; | &#39;info&#39;;
+  }&gt;;
+}
+</code></pre>
+</div></article></main></body></html>
