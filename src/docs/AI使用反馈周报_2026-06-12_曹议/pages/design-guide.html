@@ -1,0 +1,179 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>设计指南 rules/design-guide.md</title><style>:root{--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.7;font-size:15px}.shell{max-width:1160px;margin:0 auto;padding:36px 22px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:30px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}.screens,.proto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:inherit}.shot img{width:100%;display:block}.shot p{margin:0;padding:10px 12px;color:var(--muted);font-size:13px}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}.badge{display:inline-block;border-radius:999px;padding:2px 8px;background:#ecfdf3;color:#027a48;font-size:12px;font-weight:700}@media(max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px}h1{font-size:25px}}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回首页</a><h1>设计指南 rules/design-guide.md</h1><p class="lead">来源：<span class="path">rules/design-guide.md</span></p><p><a href="../md/design-guide.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>设计指南</h1>
+<p>本文档定义页面或元素设计阶段的标准流程、产出规范与质量约束。</p>
+<h2>📋 概述</h2>
+<p>设计阶段的核心目标是在编码前完成以下工作：</p>
+<ul>
+<li>明确页面功能、内容结构与用户任务</li>
+<li>确定布局方案与视觉风格方向</li>
+<li>复用现有主题、组件与设计规范</li>
+<li>产出可落地的设计规格文档</li>
+</ul>
+<h2>✅ 触发条件</h2>
+<p>以下场景需进入设计流程：</p>
+<ul>
+<li>新建页面或元素</li>
+<li>显式的视觉或布局调整需求</li>
+<li>涉及信息架构或交互结构变化</li>
+<li>功能或内容范围发生重大调整</li>
+</ul>
+<h2>🔍 前置准备</h2>
+<h3>1. 资料收集</h3>
+<p>按优先级依次阅读以下资料：</p>
+<p><strong>用户指定的技能（若有）</strong></p>
+<ul>
+<li>优先阅读并执行该 Skill 的流程（可能会产出<strong>主题 tokens / 设计规范</strong>等）</li>
+<li>如果 Skill 的设计流程和本指导冲突时，以 Skill 为准</li>
+</ul>
+<p><strong>用户提供的资料（最高优先级）</strong></p>
+<ul>
+<li>用户提供的主题、设计规范、业务文档、数据表、参考设计稿等</li>
+<li>用户指定的任何参考资料或约束条件</li>
+</ul>
+<p><strong>项目原型资产（补充资源）</strong></p>
+<ul>
+<li><code>AGENTS.md</code>：项目名称、简介、总文档、默认主题（如有）</li>
+<li>关联页面或元素的实现代码</li>
+</ul>
+<p><strong>优先级原则</strong>：用户提供 &gt; 项目资产 &gt; 默认推荐（详见「默认资源分流」）</p>
+<h2>📝 内容与功能规划</h2>
+<h3>1. 功能与内容规划</h3>
+<p>明确页面或元素的核心职责与内容组织：</p>
+<ul>
+<li>用户目标、关键任务与功能模块优先级</li>
+<li>交互触发点、反馈机制、数据流转与状态管理</li>
+<li>信息层级、模块划分、内容清单与文案语气</li>
+<li>数据字段与展示优先级、空状态/加载态/异常处理</li>
+</ul>
+<h3>2. 数据与内容来源</h3>
+<p><strong>优先级顺序</strong>（用户未提供充分上下文时，<strong>必须主动检索</strong>以下项目资产）：</p>
+<ol>
+<li><strong>用户提供</strong> → 严格按提供的数据/文档组织，保持原有语气与术语</li>
+<li><strong>项目数据表</strong> → 使用 <code>src/database/</code> 中匹配的数据</li>
+<li><strong>项目文档</strong> → 引用 <code>src/docs/</code> 中已定义的业务逻辑与字段</li>
+<li><strong>关联原型</strong> → 在 <code>src/prototypes/</code> 中查找相关页面的 <code>spec.md</code>、<code>prd.md</code> 及实现代码，优先复用已有页面结构和交互约定</li>
+</ol>
+<blockquote>
+<p><strong>原则</strong>：已有文档中的定义优先于推测。</p>
+</blockquote>
+<h2>🎨 视觉设计流程</h2>
+<h3>1. 确定主题</h3>
+<p><strong>优先级顺序</strong>：</p>
+<ol>
+<li><strong>用户指定主题</strong> → 严格使用用户提供的主题</li>
+<li><strong>项目默认主题</strong> → 使用 <code>AGENTS.md</code> 中定义的默认主题</li>
+</ol>
+<p><strong>注意</strong>：禁止使用非用户指定，或项目默认主题以外的主题，包括资产库中的主题。</p>
+<p><strong>主题设计系统文件含义</strong>：</p>
+<ul>
+<li><code>DESIGN.md</code>：设计规范（不一定存在）</li>
+<li><code>designToken.json</code> 或 <code>globals.css</code>：设计令牌定义（支持 Tailwind CSS V4 或标准 CSS 变量），通常仅使用一个，以主题内实际存在的文件为准。</li>
+</ul>
+<h3>2. 确定设计规范</h3>
+<p><strong>优先级顺序</strong>：</p>
+<ol>
+<li><strong>用户指定规范</strong> → 严格遵循用户提供的设计规范文档</li>
+<li><strong>主题内 <code>DESIGN.md</code></strong> → 使用主题自带的设计规范</li>
+<li><strong>内置设计指导</strong> → 根据业务场景选择：<ul>
+<li><strong>基础型界面</strong>（管理后台 / ToB / 工具 / 设置 / 数据工作台）→ <code>/skills/third-party/interface-design/SKILL.md</code></li>
+<li><strong>风格化界面</strong>（落地页 / ToC / 品牌展示 / 营销页 / 强视觉 App）→ <code>/skills/third-party/frontend-design/SKILL.md</code></li>
+<li><strong>混合场景</strong> → 以核心任务区优先套用基础型界面规范，品牌展示区再补充风格化规范</li>
+</ul>
+</li>
+</ol>
+<h3>3. 弥补缺失事项</h3>
+<p>按需补充主题或当前设计缺失的资源。</p>
+<p><strong>仅在触发条件满足时查阅对应文档</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>资源类型</th>
+<th>触发条件</th>
+<th>参考文档或内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>图表库</strong></td>
+<td>需要数据可视化 且 用户未指定图表库 且 项目中无现有图表方案</td>
+<td><code>/skills/default-resource-recommendations/references/default-chart-libraries.md</code></td>
+</tr>
+<tr>
+<td><strong>图标库</strong></td>
+<td>需要图标 且 用户未指定图标库 且 主题中无自定义图标系统</td>
+<td><code>/skills/default-resource-recommendations/references/default-icon-libraries.md</code></td>
+</tr>
+<tr>
+<td><strong>字体</strong></td>
+<td>需要自定义字体 且 用户未提供字体方案 且 主题中无字体定义</td>
+<td><code>/skills/default-resource-recommendations/references/default-font-combinations.md</code></td>
+</tr>
+<tr>
+<td><strong>动画库</strong></td>
+<td>页面动画处数 &gt; 5 且 用户未指定动画方案 且 主题中无自定义动画系统</td>
+<td><code>/skills/default-resource-recommendations/references/default-animation-libraries.md</code></td>
+</tr>
+<tr>
+<td><strong>图片</strong></td>
+<td>需要图片/插图 且 用户未提供图片资源 且 Agent 无法生成</td>
+<td>优先级：Unsplash → Pexels → Pixabay → Picsum</td>
+</tr>
+</tbody></table>
+<p><strong>重要</strong>：不要一次性加载所有默认推荐文档，严格按触发条件按需查阅。</p>
+<h3>4. 布局结构</h3>
+<p>确定页面框架与信息组织：</p>
+<ul>
+<li>整体布局模式（单栏、双栏、网格、自由）</li>
+<li>模块尺寸与比例约束</li>
+<li>响应式断点与适配策略</li>
+<li>信息密度与留白处理</li>
+</ul>
+<h2>📄 规格文档产出</h2>
+<h3>1. 生成时机</h3>
+<ul>
+<li>设计方案确认后，立即产出 <code>spec.md</code></li>
+<li>使用模板：<code>src/docs/templates/spec-template.md</code></li>
+</ul>
+<h3>2. 文档内容</h3>
+<p>规格文档必须包含以下部分：</p>
+<p><strong>业务与功能</strong></p>
+<ul>
+<li>页面/元素定位与核心目标</li>
+<li>功能清单</li>
+<li>交互要点</li>
+</ul>
+<p><strong>内容规划</strong></p>
+<ul>
+<li>信息架构与模块划分</li>
+<li>数据来源与关键字段说明</li>
+<li>示例内容（如适用，包含文案语气与术语规范）</li>
+</ul>
+<p><strong>布局与结构</strong></p>
+<ul>
+<li>整体布局（布局模式、关键尺寸、模块比例）</li>
+<li>响应式适配（如适用）</li>
+</ul>
+<p><strong>视觉规范</strong></p>
+<ul>
+<li>设计规范来源（用户规范/主题设计系统/内置设计指导）</li>
+<li>自定义设计要点（如适用）</li>
+<li>组件状态定义（默认/悬停/聚焦/禁用/加载）</li>
+</ul>
+<h2>🛠️ 样式实现规范</h2>
+<h3>1. 技术栈选择</h3>
+<ul>
+<li>默认：Tailwind CSS V4</li>
+</ul>
+<h3>2. 可访问性要求</h3>
+<ul>
+<li>色彩对比度符合 WCAG 2.1 AA 标准（特别是文本与背景的对比度）</li>
+</ul>
+<h2>✨ 质量检查点</h2>
+<p>设计阶段完成前，确认以下检查点：</p>
+<ul>
+<li><input disabled="" type="checkbox"> 已明确业务场景并匹配对应设计规范</li>
+<li><input disabled="" type="checkbox"> 已确定数据来源或兜底方案</li>
+<li><input disabled="" type="checkbox"> 功能清单与内容结构已规划</li>
+<li><input disabled="" type="checkbox"> 布局方案清晰且符合设计规范</li>
+<li><input disabled="" type="checkbox"> Design Tokens 引用正确</li>
+<li><input disabled="" type="checkbox"> <code>spec.md</code> 已产出且包含所有必需章节</li>
+</ul>
+</div></article></main></body></html>

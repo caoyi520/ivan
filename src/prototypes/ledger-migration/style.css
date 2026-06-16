@@ -1,0 +1,856 @@
+/**
+ * @name 账套互导系统原型样式
+ */
+
+@import "tailwindcss";
+
+.ledger-login-page,
+.ledger-page {
+  min-height: 100dvh;
+  color: #172033;
+  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.ledger-login-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 28px;
+  align-items: center;
+  padding: 44px clamp(24px, 5vw, 72px);
+  background:
+    linear-gradient(135deg, rgba(109, 94, 247, 0.10), rgba(20, 184, 166, 0.08)),
+    #f4f7fc;
+}
+
+.ledger-login-hero {
+  max-width: 720px;
+}
+
+.ledger-login-mark {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: #6d5ef7;
+  font-size: 26px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 30px rgba(109, 94, 247, 0.22);
+}
+
+.ledger-login-tag {
+  margin-bottom: 14px;
+  border-color: #d9d3ff;
+  color: #5b4be8;
+  background: #f2f0ff;
+}
+
+.ledger-login-hero h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 44px;
+  line-height: 1.14;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.ledger-login-hero p {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: #4b5565;
+  font-size: 16px;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.ledger-login-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 150px));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.ledger-login-stats div {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.ledger-login-stats strong,
+.ledger-login-stats span {
+  display: block;
+}
+
+.ledger-login-stats strong {
+  color: #111827;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.ledger-login-stats span {
+  margin-top: 5px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ledger-login-card {
+  border: 1px solid #e8ecf3;
+  border-radius: 12px;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.10);
+}
+
+.ledger-login-card .ant-card-body {
+  padding: 26px;
+}
+
+.ledger-login-card-head h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 780;
+}
+
+.ledger-login-card-head p {
+  margin: 7px 0 20px;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ledger-system-radio {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.ledger-system-radio .ant-radio-button-wrapper {
+  height: 36px;
+  text-align: center;
+}
+
+.ledger-connect-form {
+  max-width: 760px;
+}
+
+.ledger-connect-form .ant-form-item {
+  margin-bottom: 14px;
+}
+
+.ledger-login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ledger-login-row .ant-form-item {
+  margin-bottom: 0;
+}
+
+.ledger-login-submit {
+  margin-top: 18px;
+  height: 38px;
+}
+
+.ledger-page {
+  background: #f4f7fc;
+}
+
+.ledger-shell {
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+}
+
+.ledger-topbar {
+  min-height: 64px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ledger-topbar h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 780;
+}
+
+.ledger-topbar p {
+  margin: 7px 0 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ledger-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 16px;
+  align-items: start;
+}
+
+.ledger-main {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.ledger-card,
+.ledger-assistant {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.ledger-card .ant-card-body {
+  padding: 18px;
+}
+
+.ledger-card--steps .ant-card-body {
+  padding: 16px 18px 12px;
+}
+
+.ledger-transfer-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #ede9fe;
+  color: #5b4be8;
+  display: grid;
+  place-items: center;
+}
+
+.ledger-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ledger-section-heading h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 780;
+}
+
+.ledger-section-heading p {
+  margin: 6px 0 0;
+  color: #667085;
+  font-size: 13px;
+  text-wrap: pretty;
+}
+
+.ledger-task-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ledger-task-stats div {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 13px;
+  background: #fbfdff;
+  display: grid;
+  gap: 5px;
+}
+
+.ledger-task-stats span {
+  color: #667085;
+  font-size: 12px;
+}
+
+.ledger-task-stats strong {
+  color: #111827;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.ledger-task-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ledger-task-card {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 14px;
+  background: #ffffff;
+  display: grid;
+  gap: 12px;
+}
+
+.ledger-task-card:hover {
+  border-color: #d9d3ff;
+  background: #fbfaff;
+}
+
+.ledger-task-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.ledger-task-main strong {
+  color: #111827;
+  font-size: 15px;
+}
+
+.ledger-task-main p {
+  margin: 5px 0 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ledger-task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ledger-task-meta span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #475467;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ledger-task-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ledger-transfer-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.ledger-transfer-panel {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fbfdff;
+  display: grid;
+  gap: 9px;
+}
+
+.ledger-transfer-panel label {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.ledger-import-mode {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fbfdff;
+  display: grid;
+  gap: 12px;
+}
+
+.ledger-import-mode h3,
+.ledger-data-group h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 760;
+}
+
+.ledger-import-mode .ant-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ledger-import-mode .ant-radio-button-wrapper {
+  height: 34px;
+  border-radius: 8px;
+  border-inline-start-width: 1px;
+}
+
+.ledger-data-groups {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ledger-data-group {
+  border: 1px solid #e8ecf3;
+  border-radius: 10px;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.ledger-data-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ledger-data-group-head span {
+  color: #667085;
+  font-size: 12px;
+}
+
+.ledger-data-options {
+  display: grid;
+  gap: 9px;
+}
+
+.ledger-data-option {
+  min-height: 54px;
+  padding: 10px;
+  border: 1px solid #eef2f7;
+  border-radius: 8px;
+  background: #fbfdff;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.ledger-data-option:hover {
+  border-color: #d9d3ff;
+  background: #fbfaff;
+}
+
+.ledger-data-option-main {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.ledger-data-option-main strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.ledger-data-option-main small {
+  color: #667085;
+  font-size: 12px;
+}
+
+.ledger-set-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.ledger-set-summary span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #475467;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ledger-scope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+.ledger-scope-grid .ant-checkbox-wrapper {
+  margin-inline-start: 0;
+  padding: 10px 12px;
+  border: 1px solid #e8ecf3;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: #475467;
+  font-size: 13px;
+}
+
+.ledger-form-actions,
+.ledger-import-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ledger-import-summary {
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+.ledger-import-summary strong {
+  color: #111827;
+}
+
+.ledger-import-summary p {
+  margin: 5px 0 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.ledger-collecting {
+  min-height: 390px;
+  text-align: center;
+}
+
+.ledger-collecting .ant-card-body {
+  min-height: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ledger-collect-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 12px;
+  background: #ede9fe;
+  color: #6d5ef7;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+
+.ledger-collecting h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #111827;
+}
+
+.ledger-collecting p {
+  margin: 8px auto 22px;
+  max-width: 640px;
+  color: #667085;
+  text-wrap: pretty;
+}
+
+.ledger-collect-log {
+  margin: 18px auto 0;
+  max-width: 620px;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+.ledger-collect-log span {
+  padding: 10px 12px;
+  border: 1px solid #e8ecf3;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: #475467;
+  font-size: 13px;
+}
+
+.ledger-collect-log .anticon {
+  margin-right: 8px;
+  color: #6d5ef7;
+}
+
+.ledger-search {
+  width: 230px;
+}
+
+.ledger-status-filter {
+  width: 150px;
+}
+
+.ledger-table .ant-table {
+  color: #172033;
+}
+
+.ledger-table-name {
+  display: grid;
+  gap: 4px;
+}
+
+.ledger-table-name span {
+  font-weight: 670;
+}
+
+.ledger-tag {
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 670;
+  white-space: nowrap;
+}
+
+.ledger-tag--success {
+  color: #067647;
+  background: #ecfdf3;
+}
+
+.ledger-tag--warning {
+  color: #b54708;
+  background: #fffaeb;
+}
+
+.ledger-tag--failed {
+  color: #b42318;
+  background: #fef3f2;
+}
+
+.ledger-tag--info {
+  color: #175cd3;
+  background: #eff8ff;
+}
+
+.ledger-issues {
+  display: grid;
+  gap: 6px;
+  color: #b54708;
+  font-size: 13px;
+}
+
+.ledger-assistant {
+  position: sticky;
+  top: 20px;
+  min-height: calc(100dvh - 40px);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.ledger-assistant-header {
+  padding: 16px;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ledger-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #6d5ef7;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.ledger-assistant-header strong,
+.ledger-assistant-header span {
+  display: block;
+}
+
+.ledger-assistant-header strong {
+  color: #111827;
+}
+
+.ledger-assistant-header span {
+  margin-top: 3px;
+  color: #8a94a6;
+  font-size: 12px;
+}
+
+.ledger-chat {
+  flex: 1;
+  padding: 14px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.ledger-chat-bubble,
+.ledger-suggestion {
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ledger-chat-bubble {
+  background: #f4f2ff;
+  color: #3f36a5;
+}
+
+.ledger-suggestion {
+  border: 1px solid #e8ecf3;
+  background: #fbfdff;
+  display: grid;
+  gap: 5px;
+}
+
+.ledger-suggestion strong {
+  color: #111827;
+}
+
+.ledger-suggestion span {
+  color: #667085;
+}
+
+.ledger-suggestion--warning {
+  border-color: #fedf89;
+  background: #fffcf5;
+}
+
+.ledger-history {
+  margin-top: 4px;
+}
+
+.ledger-history strong,
+.ledger-history span,
+.ledger-history small {
+  display: block;
+}
+
+.ledger-history strong {
+  color: #111827;
+  font-size: 13px;
+}
+
+.ledger-history span,
+.ledger-history small {
+  color: #667085;
+  font-size: 12px;
+}
+
+.ledger-next-actions {
+  padding: 14px;
+  border-top: 1px solid #eef2f7;
+  display: grid;
+  gap: 8px;
+}
+
+.ledger-confirm {
+  display: grid;
+  gap: 10px;
+}
+
+.ledger-confirm p {
+  margin: 0;
+  color: #475467;
+}
+
+.ledger-page .ant-btn,
+.ledger-login-page .ant-btn {
+  min-height: 32px;
+  border-radius: 8px;
+}
+
+.ledger-page .ant-btn-primary,
+.ledger-login-page .ant-btn-primary {
+  background: #6d5ef7;
+  box-shadow: none;
+}
+
+.ledger-page .ant-btn-primary:hover,
+.ledger-page .ant-btn-primary:focus,
+.ledger-login-page .ant-btn-primary:hover,
+.ledger-login-page .ant-btn-primary:focus {
+  background: #5b4be8;
+}
+
+.ledger-page .ant-input,
+.ledger-page .ant-select-selector,
+.ledger-page .ant-input-affix-wrapper,
+.ledger-login-page .ant-input,
+.ledger-login-page .ant-input-affix-wrapper,
+.ledger-login-page .ant-select-selector {
+  border-radius: 8px;
+}
+
+@media (max-width: 1180px) {
+  .ledger-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-assistant {
+    position: static;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .ledger-login-page {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .ledger-login-card {
+    max-width: 520px;
+  }
+
+  .ledger-transfer-form {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-data-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-transfer-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .ledger-shell {
+    padding: 14px;
+  }
+
+  .ledger-topbar,
+  .ledger-section-heading,
+  .ledger-import-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ledger-scope-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ledger-search,
+  .ledger-status-filter {
+    width: 100%;
+  }
+
+  .ledger-task-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ledger-login-page {
+    padding: 24px 14px;
+  }
+
+  .ledger-login-hero h1 {
+    font-size: 32px;
+  }
+
+  .ledger-login-stats,
+  .ledger-task-stats,
+  .ledger-scope-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger-system-radio {
+    grid-template-columns: 1fr;
+  }
+}

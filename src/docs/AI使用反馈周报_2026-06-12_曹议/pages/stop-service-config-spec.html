@@ -1,0 +1,196 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>停止服务配置 spec.md</title><style>:root{--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.7;font-size:15px}.shell{max-width:1160px;margin:0 auto;padding:36px 22px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:30px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}.screens,.proto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:inherit}.shot img{width:100%;display:block}.shot p{margin:0;padding:10px 12px;color:var(--muted);font-size:13px}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}.badge{display:inline-block;border-radius:999px;padding:2px 8px;background:#ecfdf3;color:#027a48;font-size:12px;font-weight:700}@media(max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px}h1{font-size:25px}}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回首页</a><h1>停止服务配置 spec.md</h1><p class="lead">来源：<span class="path">src/prototypes/stop-service-config/spec.md</span></p><p><a href="../md/stop-service-config-spec.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>停止服务配置抽屉原型规格</h1>
+<h2>1. 业务与功能</h2>
+<h3>1.1 核心目标</h3>
+<p>本原型用于企业服务后台配置“合同到期后停止服务”的规则。原规则为订单合同期到期后自动停止服务；新增配置后，运营人员可设置合同到期后延后若干个月再停止服务，用于覆盖续约沟通、宽限期管理和客户数据保留场景。</p>
+<h3>1.2 功能清单</h3>
+<ul>
+<li><strong>右侧抽屉配置</strong>：从服务策略列表进入，右侧抽屉承载完整配置表单。</li>
+<li><strong>规则启停</strong>：支持开启或关闭“延后停止服务”配置。</li>
+<li><strong>延后月数</strong>：合同到期后可延后 <code>1-24</code> 个月停止服务。</li>
+<li><strong>生效范围</strong>：支持全部企业、新签/续签合同、指定服务包三种范围。</li>
+<li><strong>到期提醒</strong>：支持配置合同到期前和停止服务前的提醒节点。</li>
+<li><strong>服务停止动作</strong>：支持配置停止服务后的系统动作，如冻结新增业务、保留只读访问、发送通知。</li>
+<li><strong>实时预览</strong>：基于示例合同到期日，实时计算停止服务日期和规则摘要。</li>
+<li><strong>影响企业列表</strong>：展示近期将受规则影响的企业，用于运营确认。</li>
+<li><strong>保存反馈</strong>：保存后展示成功反馈，并触发 Axure 事件。</li>
+</ul>
+<h3>1.3 交互要点</h3>
+<ul>
+<li>点击“停止服务配置”或“打开配置”时，抽屉从右侧展开。</li>
+<li>关闭抽屉时保留当前编辑状态，再次打开可继续查看。</li>
+<li>开启延后停止后，延后月数输入框可编辑；关闭后回退到“合同到期当日停止服务”。</li>
+<li>修改延后月数时，预览区同步更新停止服务日期和时间线。</li>
+<li>点击“保存配置”后触发 <code>onSaveStopServiceConfig</code>，payload 为当前配置 JSON 字符串。</li>
+<li>点击“恢复原规则”后将延后月数重置为 <code>0</code>，并关闭延后停止开关。</li>
+</ul>
+<h2>2. 内容规划</h2>
+<h3>2.1 信息架构</h3>
+<pre><code class="language-text">停止服务配置
+├── 背景工作台
+│   ├── 顶部：页面标题、策略状态、打开配置
+│   ├── 策略摘要：原停止规则、新停止规则、影响企业、待续约合同
+│   └── 策略列表：自动开通、到期续费、停止服务配置、数据保留
+└── 右侧抽屉
+    ├── 抽屉头：标题、状态、关闭
+    ├── 当前规则摘要
+    ├── 配置表单：启用、延后月数、生效范围、提醒节点、停止动作
+    ├── 规则预览：示例合同日期、停止日期、时间线
+    ├── 影响企业列表
+    └── 底部操作：取消、恢复原规则、保存配置
+</code></pre>
+<h3>2.2 数据来源</h3>
+<ul>
+<li>默认示例数据内置在原型中。</li>
+<li>可通过 <code>data.companies</code> 覆盖影响企业列表。</li>
+<li>可通过 <code>config.defaultDelayMonths</code> 设置初始延后月数。</li>
+</ul>
+<h3>2.3 关键字段</h3>
+<ul>
+<li><code>enabled</code>：是否启用延后停止服务。</li>
+<li><code>delayMonths</code>：合同到期后延后停止月数。</li>
+<li><code>scope</code>：规则生效范围。</li>
+<li><code>reminderNodes</code>：提醒节点。</li>
+<li><code>freezeNewBusiness</code>：停止后是否冻结新增业务。</li>
+<li><code>readonlyAccess</code>：停止后是否保留只读访问。</li>
+<li><code>notifyOwner</code>：停止时是否通知客户负责人。</li>
+</ul>
+<h2>3. 布局与结构</h2>
+<h3>3.1 整体布局</h3>
+<ul>
+<li>页面采用 B 端后台配置工作台布局，背景为浅灰蓝工作区。</li>
+<li>主内容区为服务策略看板，右侧抽屉宽度约 <code>520px</code>。</li>
+<li>抽屉内容分为表单区和预览区，底部操作固定，便于长内容下保存。</li>
+</ul>
+<h3>3.2 响应式适配</h3>
+<ul>
+<li>桌面端：抽屉覆盖右侧 520px，左侧工作台仍可见。</li>
+<li>窄屏端：抽屉宽度降为 <code>100vw</code>，表单和预览纵向排列。</li>
+<li>表格和策略列表在小屏下横向滚动或单列展示。</li>
+</ul>
+<h2>4. 视觉规范</h2>
+<h3>4.1 设计规范来源</h3>
+<p>使用项目 <code>服务商设计规范</code> 的 B 端工作台规则，并参考 <code>rules/design-guide.md</code> 与 <code>rules/development-guide.md</code>。</p>
+<h3>4.2 自定义设计要点</h3>
+<ul>
+<li>背景：<code>#F5F7FB</code>，面板：<code>#FFFFFF</code>，边框：<code>#E8ECF3</code>。</li>
+<li>主色：<code>#7566F1</code>，仅用于主按钮、选中态和关键数值。</li>
+<li>风险/提醒：橙色用于“即将停止”“待续约”等提示。</li>
+<li>抽屉保持高信息密度，避免营销式大标题。</li>
+<li>表单控件高度控制在 <code>32-36px</code>，圆角不超过 <code>8px</code>。</li>
+</ul>
+<h3>4.3 组件状态</h3>
+<ul>
+<li>默认态：白色面板、细边框、弱阴影。</li>
+<li>悬停态：策略项和表格行轻微高亮。</li>
+<li>选中态：当前策略使用主紫描边和浅紫底。</li>
+<li>禁用态：关闭延后停止后，延后月数输入置灰。</li>
+<li>成功态：保存后以消息反馈展示。</li>
+<li>提醒态：影响企业中临近停止的合同使用橙色标签。</li>
+</ul>
+<h2>5. Axure API 说明</h2>
+<h3>5.1 事件列表</h3>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>Payload 类型</th>
+<th>触发时机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>onOpenStopServiceConfig</code></td>
+<td><code>string</code></td>
+<td>打开抽屉</td>
+</tr>
+<tr>
+<td><code>onCloseStopServiceConfig</code></td>
+<td><code>string</code></td>
+<td>关闭抽屉</td>
+</tr>
+<tr>
+<td><code>onStopServiceConfigChange</code></td>
+<td><code>string</code></td>
+<td>表单配置变化</td>
+</tr>
+<tr>
+<td><code>onSaveStopServiceConfig</code></td>
+<td><code>string</code></td>
+<td>保存配置</td>
+</tr>
+<tr>
+<td><code>onResetStopServiceConfig</code></td>
+<td><code>string</code></td>
+<td>恢复原规则</td>
+</tr>
+</tbody></table>
+<h3>5.2 动作列表</h3>
+<table>
+<thead>
+<tr>
+<th>动作名称</th>
+<th>Params 类型</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open_drawer</code></td>
+<td>无</td>
+<td>打开右侧抽屉</td>
+</tr>
+<tr>
+<td><code>close_drawer</code></td>
+<td>无</td>
+<td>关闭右侧抽屉</td>
+</tr>
+<tr>
+<td><code>set_delay_months</code></td>
+<td><code>number</code></td>
+<td>设置延后停止月数</td>
+</tr>
+<tr>
+<td><code>save_config</code></td>
+<td>无</td>
+<td>保存当前配置</td>
+</tr>
+<tr>
+<td><code>reset_to_original</code></td>
+<td>无</td>
+<td>恢复合同到期即停止</td>
+</tr>
+</tbody></table>
+<h3>5.3 变量列表</h3>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>drawer_open</code></td>
+<td><code>boolean</code></td>
+<td>抽屉是否打开</td>
+</tr>
+<tr>
+<td><code>enabled</code></td>
+<td><code>boolean</code></td>
+<td>是否启用延后停止服务</td>
+</tr>
+<tr>
+<td><code>delay_months</code></td>
+<td><code>number</code></td>
+<td>延后停止月数</td>
+</tr>
+<tr>
+<td><code>stop_date_preview</code></td>
+<td><code>string</code></td>
+<td>示例停止服务日期</td>
+</tr>
+<tr>
+<td><code>affected_company_count</code></td>
+<td><code>number</code></td>
+<td>受影响企业数量</td>
+</tr>
+</tbody></table>
+</div></article></main></body></html>

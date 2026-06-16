@@ -1,0 +1,357 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>导账系统 spec.md</title><style>:root{--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.7;font-size:15px}.shell{max-width:1160px;margin:0 auto;padding:36px 22px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:30px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}.screens,.proto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:inherit}.shot img{width:100%;display:block}.shot p{margin:0;padding:10px 12px;color:var(--muted);font-size:13px}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}.badge{display:inline-block;border-radius:999px;padding:2px 8px;background:#ecfdf3;color:#027a48;font-size:12px;font-weight:700}@media(max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px}h1{font-size:25px}}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回首页</a><h1>导账系统 spec.md</h1><p class="lead">来源：<span class="path">src/prototypes/ledger-migration/spec.md</span></p><p><a href="../md/ledger-migration-spec.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>账套导入系统原型规格说明</h1>
+<h2>1. 业务与功能</h2>
+<h3>1.1 页面定位</h3>
+<p>账套导入系统面向企业客户自己使用，用于把某一财务软件下商户/服务商可访问的账套数据采集出来，再导入到新的财务软件账套中。</p>
+<p>当前版本支持的财务软件为：</p>
+<ul>
+<li>猪哥云</li>
+<li>财税合规AI服务系统</li>
+</ul>
+<p>页面不再按“账号所属系统”登录。用户先登录导账系统，再分别授权源财务软件和新财务软件。</p>
+<h3>1.2 核心目标</h3>
+<ul>
+<li>用户登录导账系统，不需要区分账号所属财务软件。</li>
+<li>登录后进入导账工作台，默认展示当前用户所有导账任务。</li>
+<li>用户可在任务列表查看采集中、待导入、导入成功等任务状态，并从列表发起新的导账任务。</li>
+<li>用户选择要采集的财务软件名称。</li>
+<li>用户输入该财务软件下的商户/服务商、账号、密码，提交后创建异步采集任务。</li>
+<li>采集完成后，用户输入新财务软件下的商户/服务商、账号、密码。</li>
+<li>目标授权通过后，用户选择导入方式，并勾选要导入的数据。</li>
+<li>导入成功后，系统生成导入记录，支持后续追溯。</li>
+</ul>
+<h3>1.3 功能清单</h3>
+<ul>
+<li>登录页：仅包含导账系统账号、密码，不区分所属系统。</li>
+<li>任务列表：展示当前用户所有导账任务，包含状态、源/目标系统、商户/服务商、数据量、更新时间和操作入口。</li>
+<li>源财务软件授权：选择财务软件名称，输入商户/服务商、账号、密码。</li>
+<li>异步采集任务：展示任务执行中进度、权限校验、账套发现和数据采集日志。</li>
+<li>目标财务软件授权：采集完成后，选择新财务软件，输入新财务软件下商户/服务商、账号、密码。</li>
+<li>导入方式：支持“跳过已创建账套的企业”和“覆盖已创建账套的企业”。</li>
+<li>数据选择：按财务数据、基础资料、智能记账、其他四组选择要导入的数据。</li>
+<li>导入确认：弹窗确认导入方式、授权路径、数据范围和记录数。</li>
+<li>导入成功：展示导入成功状态，并写入右侧导入记录。</li>
+<li>记录留痕：右侧固定区域展示导入记录、导入策略、审计入口和导出入口。</li>
+</ul>
+<h3>1.4 交互要点</h3>
+<ul>
+<li>点击“登录”进入导账工作台任务列表。</li>
+<li>点击“发起导账任务”进入源财务软件采集授权。</li>
+<li>任务状态为“待导入”时可点击“继续导入”；状态为“采集中”时可查看采集进度；状态为“导入成功”时可查看记录。</li>
+<li>源财务软件选择后，新财务软件默认取另一套支持软件，也允许在目标授权步骤调整。</li>
+<li>点击“提交并开始采集”后进入异步任务状态，模拟完成后进入目标授权。</li>
+<li>目标授权通过后进入“选择导入方式和数据”。</li>
+<li>用户先选择导入方式，再按分类勾选要导入的数据。</li>
+<li>“跳过已创建账套的企业”用于避免覆盖目标系统已有企业账套；“覆盖已创建账套的企业”用于用采集数据更新已有企业账套。</li>
+<li>点击“导入所选数据”弹出二次确认。</li>
+<li>点击“开始导入”后进入导入中状态，完成后生成导入成功记录。</li>
+</ul>
+<h2>2. 内容规划</h2>
+<h3>2.1 信息架构</h3>
+<pre><code class="language-text">账套导入系统
+├── 登录页
+│   ├── 系统说明
+│   └── 导账系统账号密码
+└── 导账工作台
+    ├── 顶部工具栏
+    │   ├── 页面标题与说明
+    │   ├── 发起导账任务
+    │   └── 导入所选数据
+    ├── 中央业务区
+    │   ├── 任务列表
+    │   ├── 六步流程条
+    │   ├── 源软件授权表单
+    │   ├── 异步采集任务进度
+    │   ├── 新软件授权表单
+    │   ├── 导入方式与数据选择
+    │   ├── 导入中状态
+    │   └── 导入成功结果
+    └── 右侧导入记录
+        ├── 当前流程说明
+        ├── 采集结果摘要
+        ├── 导入策略
+        ├── 成功记录列表
+        └── 审计/授权/导出入口
+</code></pre>
+<h3>2.2 账套数据范围</h3>
+<p>默认采集并展示以下可导入数据：</p>
+<table>
+<thead>
+<tr>
+<th>分组</th>
+<th>数据项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>财务数据</td>
+<td>财务初始余额、会计科目、凭证记录、辅助核算</td>
+</tr>
+<tr>
+<td>基础资料</td>
+<td>财务初始余额、银行账户、科目、辅助核算</td>
+</tr>
+<tr>
+<td>智能记账</td>
+<td>销项发票、进项发票、费用报销、无票收入、银行、工资</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>币别、附件、小计</td>
+</tr>
+</tbody></table>
+<h3>2.3 数据来源与关键字段</h3>
+<p>数据源为示例账套采集结果，可由外部 <code>data.ledger_sets</code> 与 <code>data.ledger_items</code> 覆盖。</p>
+<h4><code>ledger_sets</code></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>账套唯一标识</td>
+</tr>
+<tr>
+<td><code>software</code></td>
+<td>财务软件名称</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td>商户/服务商</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>账套名称</td>
+</tr>
+<tr>
+<td><code>company</code></td>
+<td>企业名称</td>
+</tr>
+<tr>
+<td><code>period</code></td>
+<td>账套期间</td>
+</tr>
+<tr>
+<td><code>standard</code></td>
+<td>会计准则</td>
+</tr>
+<tr>
+<td><code>voucherCount</code></td>
+<td>凭证数量</td>
+</tr>
+</tbody></table>
+<h4><code>ledger_items</code></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>数据项唯一标识</td>
+</tr>
+<tr>
+<td><code>ledgerSetId</code></td>
+<td>所属账套 id</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>数据分类</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>数据名称</td>
+</tr>
+<tr>
+<td><code>period</code></td>
+<td>所属期间</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>记录数量</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>金额合计</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>ready</code>、<code>warning</code>、<code>blocked</code>、<code>imported</code></td>
+</tr>
+<tr>
+<td><code>issues</code></td>
+<td>异常或复核说明</td>
+</tr>
+</tbody></table>
+<h3>2.4 可配置字段</h3>
+<ul>
+<li><code>config.title</code>：页面标题，默认“账套导入系统”。</li>
+<li><code>config.subtitle</code>：页面说明，默认“采集源财务软件账套数据，并导入到新的财务软件账套”。</li>
+<li><code>data.ledger_sets</code>：采集到账套列表。</li>
+<li><code>data.ledger_items</code>：采集到账套数据项。</li>
+</ul>
+<h2>3. 布局与结构</h2>
+<h3>3.1 整体布局</h3>
+<ul>
+<li>登录页：左侧说明区 + 右侧登录卡片。</li>
+<li>工作台：顶部工具栏 + 中央业务区 + 右侧导入记录。</li>
+<li>中央业务区：默认展示任务列表；发起或继续任务后，通过流程条和当前步骤表单组织导账流程。</li>
+<li>右侧记录区：宽度 <code>340px</code>，持续展示导入记录和策略提醒。</li>
+</ul>
+<h3>3.2 响应式适配</h3>
+<ul>
+<li>宽屏桌面：中央业务区与右侧导入记录并排。</li>
+<li>中等屏幕：右侧记录区下移，导入数据分组改为单列。</li>
+<li>小屏幕：顶部工具栏、右侧记录区与表单按单列展示。</li>
+<li>中文文本使用 <code>word-break: keep-all</code> 与 <code>text-wrap: pretty</code>，避免孤字断行。</li>
+</ul>
+<h2>4. 视觉规范</h2>
+<h3>4.1 设计规范来源</h3>
+<p>使用“服务商设计规范”Skill。当前工作区未提供 <code>PC共创-网页设计规范.md</code> 与 <code>pc-cocreate.visual-style.md</code>，因此本原型采用该 Skill 的内置默认规则。</p>
+<h3>4.2 设计要点</h3>
+<ul>
+<li>背景：浅灰蓝 <code>#F4F7FC</code>。</li>
+<li>面板：白色卡片、细边框、轻阴影。</li>
+<li>主色：紫色 <code>#6D5EF7</code>，用于主按钮、流程高亮和关键操作。</li>
+<li>状态色：成功绿、提醒橙、风险红、信息蓝。</li>
+<li>信息密度：按 B 端任务工作台处理，不做营销式大横幅。</li>
+<li>交互：突出任务列表、异步任务、授权表单、导入方式、数据选择和导入记录。</li>
+</ul>
+<h3>4.3 组件状态</h3>
+<ul>
+<li>默认态：白底卡片、灰蓝背景、细边框。</li>
+<li>悬停态：主按钮、表单控件和记录入口颜色加深或底色高亮。</li>
+<li>选中态：当前流程步骤高亮。</li>
+<li>禁用态：未到步骤时导入按钮禁用；暂不可导数据不可勾选。</li>
+<li>加载态：采集和导入时展示动态进度条与日志。</li>
+<li>空状态：搜索无结果时表格展示空状态。</li>
+<li>完成态：导入成功后数据状态变为“已导入”，右侧记录新增成功记录。</li>
+</ul>
+<h2>5. Axure API 说明</h2>
+<h3>5.1 事件列表</h3>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>触发时机</th>
+<th>Payload</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_login_submit</code></td>
+<td>提交导账系统登录</td>
+<td>登录账号 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_source_collect_submit</code></td>
+<td>提交源财务软件采集授权</td>
+<td>源软件、商户/服务商和账号 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_collect_finish</code></td>
+<td>异步采集任务完成</td>
+<td>采集到账套和数据 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_target_auth_submit</code></td>
+<td>提交目标财务软件授权</td>
+<td>目标软件、商户/服务商和账号 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_selection_change</code></td>
+<td>选择导入方式或导入数据</td>
+<td>当前选择 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_import_start</code></td>
+<td>开始导入</td>
+<td>导入任务 JSON 字符串</td>
+</tr>
+<tr>
+<td><code>on_import_success</code></td>
+<td>导入成功并生成记录</td>
+<td>导入记录 JSON 字符串</td>
+</tr>
+</tbody></table>
+<h3>5.2 动作列表</h3>
+<table>
+<thead>
+<tr>
+<th>动作名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>submit_login</code></td>
+<td>进入导账任务列表</td>
+</tr>
+<tr>
+<td><code>start_new_task</code></td>
+<td>从任务列表发起新的导账任务</td>
+</tr>
+<tr>
+<td><code>submit_source_collect</code></td>
+<td>提交源软件授权并创建异步采集任务</td>
+</tr>
+<tr>
+<td><code>finish_collect</code></td>
+<td>直接进入目标财务软件授权</td>
+</tr>
+<tr>
+<td><code>submit_target_auth</code></td>
+<td>提交目标软件授权并进入导入选择</td>
+</tr>
+<tr>
+<td><code>import_selected</code></td>
+<td>导入当前选择的数据</td>
+</tr>
+<tr>
+<td><code>reset_flow</code></td>
+<td>新建采集任务</td>
+</tr>
+</tbody></table>
+<h3>5.3 变量列表</h3>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>current_mode</code></td>
+<td>当前页面状态</td>
+</tr>
+<tr>
+<td><code>source_software</code></td>
+<td>源财务软件</td>
+</tr>
+<tr>
+<td><code>target_software</code></td>
+<td>目标财务软件</td>
+</tr>
+<tr>
+<td><code>source_merchant</code></td>
+<td>源财务软件下商户/服务商</td>
+</tr>
+<tr>
+<td><code>target_merchant</code></td>
+<td>目标财务软件下商户/服务商</td>
+</tr>
+<tr>
+<td><code>import_mode</code></td>
+<td>导入方式：跳过或覆盖已创建账套企业</td>
+</tr>
+<tr>
+<td><code>selected_items</code></td>
+<td>待导入数据项</td>
+</tr>
+<tr>
+<td><code>import_records</code></td>
+<td>导入记录列表</td>
+</tr>
+</tbody></table>
+</div></article></main></body></html>

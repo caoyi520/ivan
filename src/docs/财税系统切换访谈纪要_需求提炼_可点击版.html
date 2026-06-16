@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>新旧财税系统切换访谈纪要与需求提炼</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f5f8;
+      --paper: #ffffff;
+      --ink: #17202f;
+      --muted: #667085;
+      --subtle: #8a94a6;
+      --line: #dce2ea;
+      --line-strong: #c7d0dc;
+      --brand: #1f6f78;
+      --brand-dark: #164e55;
+      --brand-soft: #e8f4f5;
+      --amber: #a86416;
+      --amber-soft: #fff2dd;
+      --red: #b42318;
+      --red-soft: #fff1f0;
+      --blue: #215a96;
+      --blue-soft: #eaf2fb;
+      --green: #27704f;
+      --green-soft: #eaf7f0;
+      --shadow: 0 18px 46px rgba(21, 35, 58, 0.09);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(31, 111, 120, 0.08), rgba(31, 111, 120, 0) 320px),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      letter-spacing: 0;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    p {
+      margin: 0;
+      text-wrap: pretty;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 24px;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 8px 24px rgba(21, 35, 58, 0.05);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .sidebar-title {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sidebar-title strong {
+      display: block;
+      font-size: 16px;
+      color: var(--brand-dark);
+    }
+
+    .sidebar-title span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .nav {
+      display: grid;
+      padding: 10px;
+      gap: 4px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 36px;
+      border-radius: 6px;
+      padding: 7px 9px;
+      color: #344054;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .nav a:hover {
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(31, 111, 120, 0.12), rgba(255, 255, 255, 0.86) 42%),
+        var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -100px;
+      width: 260px;
+      height: 260px;
+      border: 42px solid rgba(31, 111, 120, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 28px;
+      border: 1px solid #b9d9dd;
+      border-radius: 999px;
+      padding: 3px 10px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      max-width: 860px;
+      margin: 18px 0 12px;
+      color: #101828;
+      font-family: "Songti SC", "Noto Serif CJK SC", "Microsoft YaHei", serif;
+      font-size: 34px;
+      line-height: 1.24;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .hero-desc {
+      max-width: 880px;
+      color: #475467;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 38px;
+      border: 1px solid var(--line-strong);
+      border-radius: 7px;
+      padding: 7px 13px;
+      background: #fff;
+      color: #344054;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: #9fb9bd;
+      box-shadow: 0 8px 18px rgba(21, 35, 58, 0.08);
+    }
+
+    .btn-primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .stat {
+      min-height: 96px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .stat strong {
+      display: block;
+      color: #101828;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(21, 35, 58, 0.05);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      padding: 22px 24px 18px;
+    }
+
+    h2 {
+      margin: 0;
+      color: #101828;
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section-body {
+      padding: 22px 24px 24px;
+    }
+
+    .lead-box {
+      display: grid;
+      gap: 12px;
+      border-left: 4px solid var(--brand);
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: #f7fbfb;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px;
+      background: #fff;
+    }
+
+    .summary-card h3 {
+      margin: 0 0 8px;
+      color: var(--brand-dark);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .summary-card p {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter {
+      min-height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 5px 12px;
+      background: #fff;
+      color: #475467;
+      cursor: pointer;
+    }
+
+    .filter.active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 13px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f8fafc;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    td strong {
+      color: #1d2939;
+    }
+
+    .priority {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .p0 {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .p1 {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .p2 {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .note-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-list li {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 15px;
+      background: #fff;
+    }
+
+    .note-list strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #1d2939;
+      font-size: 15px;
+    }
+
+    .note-list span {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .phase {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fff;
+    }
+
+    .phase small {
+      display: inline-flex;
+      margin-bottom: 9px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 800;
+    }
+
+    .phase h3 {
+      margin: 0 0 8px;
+      color: #1d2939;
+      font-size: 16px;
+    }
+
+    .phase p {
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .footer {
+      color: var(--subtle);
+      font-size: 12px;
+      text-align: center;
+      padding: 10px 0 0;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      transform: translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      border: 1px solid #b9d9dd;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--brand-dark);
+      box-shadow: var(--shadow);
+      transition: 0.18s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 1040px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 14px 12px 34px;
+      }
+
+      .hero-inner,
+      .section-body {
+        padding: 20px 16px;
+      }
+
+      .section-head {
+        display: block;
+        padding: 18px 16px 14px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+        font-size: 19px;
+      }
+
+      .stats,
+      .summary-grid,
+      .note-list,
+      .phase-grid,
+      .nav {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        display: grid;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        font-size: 12px;
+      }
+
+      .page {
+        display: block;
+        max-width: none;
+        padding: 0;
+      }
+
+      .sidebar,
+      .actions,
+      .filters,
+      .toast {
+        display: none !important;
+      }
+
+      .hero,
+      .section {
+        box-shadow: none;
+        border-color: #cfd6e0;
+        break-inside: avoid;
+        margin-bottom: 12px;
+      }
+
+      .hero-inner,
+      .section-body,
+      .section-head {
+        padding: 14px;
+      }
+
+      table {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar" aria-label="页面导航">
+      <div class="sidebar-title">
+        <strong>访谈纪要</strong>
+        <span>新旧财税系统切换反馈整理</span>
+      </div>
+      <nav class="nav">
+        <a href="#overview">整体结论 <span>01</span></a>
+        <a href="#notes">重点纪要 <span>02</span></a>
+        <a href="#requirements">需求清单 <span>03</span></a>
+        <a href="#roadmap">优先建议 <span>04</span></a>
+        <a href="#judgement">产品判断 <span>05</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="overview">
+        <div class="hero-inner">
+          <span class="eyebrow">录音备忘整理 · 去重合并版</span>
+          <h1>新旧财税系统切换访谈纪要与需求提炼</h1>
+          <p class="hero-desc">
+            本页面整合多份录音转写、导读与 AI 纪要，聚焦一线顾问、客服、会计在新系统切换后的真实使用痛点，并将重复反馈合并为可落地的需求清单。
+          </p>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="window.print()">打印 / 另存 PDF</button>
+            <button class="btn" type="button" id="copySummary">复制核心结论</button>
+            <a class="btn" href="#requirements">查看需求优先级</a>
+          </div>
+          <div class="stats" aria-label="摘要指标">
+            <div class="stat"><strong>16</strong><span>类核心业务痛点</span></div>
+            <div class="stat"><strong>22</strong><span>条产品需求</span></div>
+            <div class="stat"><strong>8</strong><span>P0 优先事项</span></div>
+            <div class="stat"><strong>3</strong><span>阶段推进建议</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>整体结论</h2>
+            <p>先解决基础业务闭环，再承接 AI 与合规能力。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="lead-box">
+            <p>
+              本次访谈反映的是新旧财税系统切换后，一线顾问、客服、会计在实际业务中遇到的系统适配问题。新系统方向上强调 AI、合规和流程标准化，但当前在客户信息整合、销售下单、工商派单、合同赠品、工资处理、资料上传、AI 开票、流失管理、系统通知等基础业务场景上仍存在明显断点。
+            </p>
+            <p>
+              一线目前被迫“老系统看信息、跑部分业务，新系统走部分流程”，导致工作量增加、客户响应变慢、客户满意度下降，也影响新系统推广。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="notes">
+        <div class="section-head">
+          <div>
+            <h2>重点纪要</h2>
+            <p>已合并重复表述，按业务链路归类。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="summary-grid">
+            <article class="summary-card">
+              <h3>客户信息割裂，缺少企业全景视图</h3>
+              <p>老系统点开企业即可查看客户概况、回访动态、订单历史、服务记录、客户资料和税务账号；新系统需要多页面跳转，且历史数据迁移不完整。</p>
+            </article>
+            <article class="summary-card">
+              <h3>基础交互效率不如旧系统</h3>
+              <p>多页签、返回、列表总览、企业内快速切换等能力不足，企业列表、国税进度、工资详情之间切换时经常需要重新搜索。</p>
+            </article>
+            <article class="summary-card">
+              <h3>工商下单与派单流程缺失</h3>
+              <p>新系统无法完成工商部派单，也看不到历史工商订单。旧系统支持下单、派单和提成关联，当前工商业务仍依赖旧系统。</p>
+            </article>
+            <article class="summary-card">
+              <h3>销售中心流程与真实收款场景不匹配</h3>
+              <p>客户常要求先看合同再付款，但新系统偏向付款后生成合同；扫码付款失败或拖延会直接影响收款转化。</p>
+            </article>
+            <article class="summary-card">
+              <h3>合同与赠品能力不足</h3>
+              <p>合同无法自定义条款，无法写入赠送月份、特殊承诺、一次性服务范围、台账调整周期等。赠品既要体现在订单中，也要体现在合同中。</p>
+            </article>
+            <article class="summary-card">
+              <h3>工资与人员管理操作繁琐</h3>
+              <p>工资详情缺少批量删除、清空等能力。客户一个月上传上百人工资时，逐条删除耗时很长；用户还希望按企业查看全年工资总览。</p>
+            </article>
+            <article class="summary-card">
+              <h3>结账后补传存在断点</h3>
+              <p>客户常在会计结账后才给银行流水、无票收入等资料。旧系统可上传到下月，新系统不顺畅，顾问只能先存本地再补传。</p>
+            </article>
+            <article class="summary-card">
+              <h3>资料上传质量和会计反馈不闭环</h3>
+              <p>银行流水上传后，会计端可能显示模糊或 AI 解析失败，但会计不一定主动反馈，顾问常在客户追问时才发现资料未处理。</p>
+            </article>
+            <article class="summary-card">
+              <h3>AI 开票尚未跑通</h3>
+              <p>客户侧和客服侧都存在开通失败、企微配置复杂、税务连接困难、代理通道绑定复杂等问题，目前仍依赖传统方式开票。</p>
+            </article>
+            <article class="summary-card">
+              <h3>调出系统和重新激活流程复杂</h3>
+              <p>每月约 30-40 家客户被调出系统，重新激活需要下单、线下收款、重新开通国税个税、重新绑定代理通道，工作量很大。</p>
+            </article>
+            <article class="summary-card">
+              <h3>流失客户管理弱化</h3>
+              <p>旧系统要求填写流失产品、流失原因并审批；新系统到期即停服，容易误停待续客户，也不利于集团统计真实流失原因。</p>
+            </article>
+            <article class="summary-card">
+              <h3>客户沟通提醒难以闭环</h3>
+              <p>客户多使用微信，不使用企微或 App，一键推送触达有限。客户常看了不回或事后称没人提醒，顾问需要反复电话和留痕。</p>
+            </article>
+            <article class="summary-card">
+              <h3>合规产品推进困难</h3>
+              <p>简阳区域客户价格敏感、合规意识弱。即使年开票数千万且多次被稽查的客户，也可能拒绝购买合规服务。</p>
+            </article>
+            <article class="summary-card">
+              <h3>系统更新和问题反馈机制不清晰</h3>
+              <p>更新后缺少完整通知。登录手机号与办税小号统一、标签异常、授权变化等问题发生时，一线不知道找谁处理。</p>
+            </article>
+            <article class="summary-card">
+              <h3>AI 应定位为辅助，而非替代会计</h3>
+              <p>AI 应帮助会计提高准确率、识别异常、校验政策适用，而不是直接替代会计填报，避免税务比对失败和客户投诉。</p>
+            </article>
+            <article class="summary-card">
+              <h3>业绩核算线上化有价值但复杂</h3>
+              <p>当前线下统计涉及收款、成本扣减、内部结转、订单升级、阶梯提成、底薪变化等，若线上化需先做辅助台账。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="requirements">
+        <div class="section-head">
+          <div>
+            <h2>需求清单</h2>
+            <p>点击优先级筛选，适合评审时快速聚焦。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="filters" role="group" aria-label="需求优先级筛选">
+            <button class="filter active" type="button" data-filter="all">全部</button>
+            <button class="filter" type="button" data-filter="P0">P0 必须优先</button>
+            <button class="filter" type="button" data-filter="P1">P1 重点优化</button>
+            <button class="filter" type="button" data-filter="P2">P2 后续规划</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 86px;">优先级</th>
+                  <th style="width: 170px;">需求方向</th>
+                  <th>具体需求</th>
+                  <th style="width: 220px;">主要价值</th>
+                </tr>
+              </thead>
+              <tbody id="requirementRows">
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>客户全景页</strong></td><td>企业详情页整合客户概况、回访记录、订单历史、服务动态、合同、资料、税务账号等。</td><td>解决信息割裂，减少新旧系统并行。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>历史数据迁移</strong></td><td>迁移旧系统订单、客户动态、回访记录、流失记录、赠品信息。</td><td>避免客户服务断层。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>工商派单</strong></td><td>支持工商下单、派单、历史订单查看、提成记录。</td><td>恢复核心业务流程。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>合同能力</strong></td><td>支持付款前合同预览/生成、撤销重做、自定义补充条款。</td><td>适配真实销售成交流程。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>赠品能力</strong></td><td>支持赠送月份、赠品服务，并自动带入订单和合同。</td><td>支持续费挽回和履约确认。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>工资批量操作</strong></td><td>工资详情增加批量删除、清空、批量导入/覆盖。</td><td>降低高频操作耗时。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>AI 开票打通</strong></td><td>明确开通条件、企微配置、税务连接、代理通道绑定、失败原因提示。</td><td>让核心 AI 能力真正可用。</td></tr>
+                <tr data-priority="P0"><td><span class="priority p0">P0</span></td><td><strong>系统更新通知</strong></td><td>建立版本更新通知机制，说明影响模块、操作变化、处理方式。</td><td>降低一线使用混乱。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>销售中心优化</strong></td><td>优化扫码付款、付款前合同、客户确认、收款转化流程。</td><td>减少成交过程中的系统阻力。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>流失管理</strong></td><td>恢复流失申请、原因填写、审批、统计、到期未续缓冲期。</td><td>提升集团流失管控。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>到期回访</strong></td><td>自动生成 T+3、N+3 客户回访任务，并记录最近动态。</td><td>支持续费管理和客户维护。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>调出/激活简化</strong></td><td>简化调出客户重新开通、代理通道绑定、个税/国税授权流程。</td><td>降低月初集中工作量。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>资料上传闭环</strong></td><td>银行流水/回单上传后提供清晰度校验、AI 识别失败提示、会计反馈通知。</td><td>避免资料无效但无人知晓。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>结账后补传</strong></td><td>支持结账后将资料上传到下月，或标记为待下月处理。</td><td>适应客户资料滞后场景。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>多页签/快捷返回</strong></td><td>恢复或优化多页签、返回、企业内跨模块快速切换。</td><td>提升基础操作效率。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>工资总览</strong></td><td>企业工资页支持按月查看全年工资情况。</td><td>满足客户查询和核对需求。</td></tr>
+                <tr data-priority="P1"><td><span class="priority p1">P1</span></td><td><strong>商机功能运营</strong></td><td>增加入口提示、使用培训、推荐解释，提升商机转化使用率。</td><td>释放已有系统能力。</td></tr>
+                <tr data-priority="P2"><td><span class="priority p2">P2</span></td><td><strong>税务问答助手</strong></td><td>基于内部政策、税务规则、系统能力提供专业问答。</td><td>降低顾问对会计/老师的依赖。</td></tr>
+                <tr data-priority="P2"><td><span class="priority p2">P2</span></td><td><strong>业绩辅助台账</strong></td><td>先支持录入、查看、导出、人工核算，不急于全自动算提成。</td><td>保留线下灵活性。</td></tr>
+                <tr data-priority="P2"><td><span class="priority p2">P2</span></td><td><strong>可配置提成规则</strong></td><td>后续支持成本、结转、阶梯、服务商差异等规则配置。</td><td>为线上核算打基础。</td></tr>
+                <tr data-priority="P2"><td><span class="priority p2">P2</span></td><td><strong>外呼能力评估</strong></td><td>调研是否适合老客维护场景，注意员工接受度和隐私顾虑。</td><td>避免强推低接受度能力。</td></tr>
+                <tr data-priority="P2"><td><span class="priority p2">P2</span></td><td><strong>行业特殊场景</strong></td><td>适配农业、合作社、畜牧业、库存等区域客户特性。</td><td>提升区域客户覆盖度。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap">
+        <div class="section-head">
+          <div>
+            <h2>建议优先级</h2>
+            <p>按迁移阻力和一线高频程度排序。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="phase-grid">
+            <article class="phase">
+              <small>第一阶段</small>
+              <h3>先解决迁移意愿</h3>
+              <p>客户全景页、历史数据迁移、工商派单、合同/赠品、工资批量删除、AI 开票跑通、系统更新通知。</p>
+            </article>
+            <article class="phase">
+              <small>第二阶段</small>
+              <h3>再补业务闭环</h3>
+              <p>流失管理、到期回访、调出激活简化、资料上传闭环、结账后补传、工资总览。</p>
+            </article>
+            <article class="phase">
+              <small>第三阶段</small>
+              <h3>规划增效能力</h3>
+              <p>业绩辅助台账、税务问答助手、商机运营、外呼、行业特殊场景。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="judgement">
+        <div class="section-head">
+          <div>
+            <h2>产品判断</h2>
+            <p>面向后续评审的决策口径。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <ul class="note-list">
+            <li>
+              <strong>不要只继续增加 AI 或合规概念</strong>
+              <span>当前最关键的是先让新系统承接旧系统中已经被验证的一线高频工作流。</span>
+            </li>
+            <li>
+              <strong>一线真正需要的是少打断</strong>
+              <span>少跳转、少重复录入、少找人确认、少手工留痕，能快速看清客户、完成下单、处理工资和资料。</span>
+            </li>
+            <li>
+              <strong>合同和赠品应上调为 P0</strong>
+              <span>它们直接影响销售中心能否承接真实下单流程，也影响续费挽回和客户履约确认。</span>
+            </li>
+            <li>
+              <strong>反馈机制要产品直连</strong>
+              <span>系统类问题建议产品经理进入服务群或设专门反馈群，按问题状态跟进，避免客服转述导致需求变形。</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="footer">本页面由录音备忘、导读与访谈转写内容整理生成，可直接作为评审材料发送。</p>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">已复制核心结论</div>
+
+  <script>
+    const filters = document.querySelectorAll('.filter');
+    const rows = document.querySelectorAll('#requirementRows tr');
+    filters.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.filter;
+        filters.forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        rows.forEach((row) => {
+          row.style.display = target === 'all' || row.dataset.priority === target ? '' : 'none';
+        });
+      });
+    });
+
+    const toast = document.getElementById('toast');
+    const summaryText = '新系统当前最大问题不是 AI 或合规方向本身，而是客户全景、历史数据、工商派单、合同赠品、工资处理、资料上传、AI 开票、流失管理和系统通知等基础业务闭环尚未打通。一线被迫新旧系统并行，建议优先解决 P0 能力，再推进增效型功能。';
+    document.getElementById('copySummary').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(summaryText);
+      } catch (error) {
+        const textarea = document.createElement('textarea');
+        textarea.value = summaryText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+      }
+      toast.classList.add('show');
+      window.setTimeout(() => toast.classList.remove('show'), 1800);
+    });
+  </script>
+</body>
+</html>

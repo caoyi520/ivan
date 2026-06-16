@@ -1,0 +1,66 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>开发指南 rules/development-guide.md</title><style>:root{--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#667085;--line:#d8dee9;--brand:#7566f1;--brand2:#1f3a5f;--soft:#f0efff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;line-height:1.7;font-size:15px}.shell{max-width:1160px;margin:0 auto;padding:36px 22px 56px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:0 18px 50px rgba(20,31,54,.08)}h1{margin:0 0 8px;font-size:30px;line-height:1.25;color:#0b2545}h2{margin:30px 0 12px;font-size:22px;color:#1f3a5f}h3{margin:22px 0 8px;font-size:17px;color:#23324d}.lead{color:var(--muted);font-size:16px}.note{background:#f4f6f9;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:18px 0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:#fff;transition:.15s ease}.card:hover{border-color:var(--brand);box-shadow:0 10px 24px rgba(117,102,241,.12);transform:translateY(-1px)}.card strong{display:block;color:var(--brand2);font-size:15px;margin-bottom:4px}.card span{display:block;color:var(--muted);font-size:13px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#475467;margin-top:8px;word-break:break-all}.pill{display:inline-flex;align-items:center;border:1px solid #d7d1ff;background:var(--soft);color:#5b4be0;border-radius:999px;padding:2px 9px;font-size:12px;margin-left:8px}.screens,.proto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.shot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;color:inherit}.shot img{width:100%;display:block}.shot p{margin:0;padding:10px 12px;color:var(--muted);font-size:13px}.section{border-top:1px solid var(--line);margin-top:28px;padding-top:22px}.back{display:inline-flex;margin-bottom:18px;color:var(--brand);text-decoration:none;font-weight:600}.markdown-body pre{background:#0b1020;color:#e6edf3;padding:14px;border-radius:8px;overflow:auto}.markdown-body code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f4f7;border-radius:4px;padding:1px 4px}.markdown-body pre code{background:transparent;padding:0}.markdown-body table{border-collapse:collapse;width:100%;margin:12px 0}.markdown-body th,.markdown-body td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.markdown-body th{background:#f6f8fb}.markdown-body blockquote{border-left:4px solid var(--line);margin:12px 0;padding:4px 12px;color:var(--muted)}.markdown-body a{color:var(--brand)}.badge{display:inline-block;border-radius:999px;padding:2px 8px;background:#ecfdf3;color:#027a48;font-size:12px;font-weight:700}@media(max-width:640px){.shell{padding:18px 12px}.paper{padding:22px 16px}h1{font-size:25px}}</style></head><body><main class="shell"><article class="paper"><a class="back" href="../index.html">← 返回首页</a><h1>开发指南 rules/development-guide.md</h1><p class="lead">来源：<span class="path">rules/development-guide.md</span></p><p><a href="../md/development-guide.md">打开 Markdown 原文</a></p><div class="section markdown-body"><h1>开发指南</h1>
+<p><strong>开发流程</strong>：阅读 <code>spec.md</code> → 编写代码 → 运行验收脚本 → 按错误信息修复</p>
+<h2>项目结构与命名</h2>
+<pre><code class="language-text">src/
+├── prototypes/&lt;name&gt;/
+│   ├── index.tsx  # 必需
+│   ├── spec.md    # 必需
+│   ├── style.css  # 可选
+│   ├── hack.css   # 可选（AI 不应修改）
+│   └── components/ # 可选：内部子组件目录
+└── components/&lt;name&gt;/
+    ├── index.tsx
+    ├── spec.md
+    └── （同上）
+
+- 入口文件必须是 `index.tsx`
+- 目录内必须包含 `spec.md`
+- 目录（`name`）使用小写字母、数字、连字符（如 `login-page`）
+- 支持可选子目录 `components/` 用于拆分内部子组件
+
+## 核心约束
+
+### 1. 文件头注释（必需）
+
+每个 `index.tsx` 顶部必须包含 `@name`：
+
+```typescript
+/**
+ * @name 显示名
+ *
+ */
+</code></pre>
+<ul>
+<li><code>@name</code> 必须存在，且为中文显示名</li>
+</ul>
+<h3>2. 依赖与样式</h3>
+<ul>
+<li>React 与 Hooks 直接从 <code>react</code> 导入</li>
+<li>第三方库按需导入，新增依赖需同步安装</li>
+<li>使用 Tailwind 时必须导入 <code>style.css</code>，且样式文件需包含：</li>
+</ul>
+<pre><code class="language-css">@import &quot;tailwindcss&quot;;
+</code></pre>
+<h2>验收流程</h2>
+<h3>1. 运行验收脚本</h3>
+<pre><code class="language-bash">node scripts/check-app-ready.mjs /components/[组件目录]
+# 或
+node scripts/check-app-ready.mjs /prototypes/[原型目录]
+</code></pre>
+<p>关键返回字段：</p>
+<ul>
+<li><code>status</code>: <code>READY</code> / <code>ERROR</code> / <code>TIMEOUT</code></li>
+<li><code>targetUrl</code>: 本次验收目标地址</li>
+<li><code>errors</code>: 构建/运行时/页面加载错误列表</li>
+</ul>
+<h3>2. 错误处理</h3>
+<p>当状态为 <code>ERROR</code>：按 <code>errors</code> 修复后重新执行验收脚本，直到通过。</p>
+<h2>验收清单（提交前）</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <code>index.tsx</code> 与 <code>spec.md</code> 完整存在</li>
+<li><input disabled="" type="checkbox"> 顶部包含 <code>@name</code> 注释与参考资料</li>
+<li><input disabled="" type="checkbox"> 依赖导入方式符合规范，新增依赖已安装</li>
+<li><input disabled="" type="checkbox"> 使用 Tailwind 时已正确引入 <code>@import &quot;tailwindcss&quot;;</code></li>
+<li><input disabled="" type="checkbox"> <code>check-app-ready.mjs</code> 验收通过</li>
+</ul>
+</div></article></main></body></html>
