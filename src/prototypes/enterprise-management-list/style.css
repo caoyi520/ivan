@@ -1,0 +1,29 @@
+/**
+ * @name 企业管理 · 企业列表样式
+ */
+
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.enterprise-management-list {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f5f6fa;
+}
+
+.enterprise-management-list__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #f5f6fa;
+}
